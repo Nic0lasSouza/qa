@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA no Trabalho — Aprender Rápido</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  :root {
+    --bg: #0f1419;
+    --card: #1a2028;
+    --card-hover: #222a35;
+    --border: #2a3441;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --cyan: #39c5cf;
+    --orange: #ff8c42;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 40px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #3fb950, #58a6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  
+  header p { color: var(--text-dim); font-size: 15px; }
+  
+  /* STATS */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  
+  .stat .value { font-size: 24px; font-weight: 700; color: var(--accent); }
+  .stat .label {
+    font-size: 11px; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;
+  }
+  
+  /* PROGRESSO */
+  .global-progress {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 32px;
+  }
+  
+  .global-progress-header {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 10px;
+  }
+  
+  .global-progress-header span:first-child { font-weight: 600; font-size: 14px; }
+  .global-progress-header span:last-child { color: var(--accent); font-weight: 700; font-size: 18px; }
+  
+  .progress-bar {
+    height: 8px; background: var(--border);
+    border-radius: 4px; overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3fb950, #58a6ff);
+    width: 0%; transition: width 0.3s ease; border-radius: 4px;
+  }
+  
+  /* NÍVEL */
+  .nivel {
+    margin-bottom: 36px;
+    border-radius: 14px;
+    padding: 20px 22px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--border);
+  }
+  
+  .nivel.p1 { border-left-color: var(--red); }
+  .nivel.p2 { border-left-color: var(--orange); }
+  
+  .nivel-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .nivel-icon { font-size: 22px; flex-shrink: 0; }
+  .nivel-title { font-size: 20px; font-weight: 700; flex: 1; }
+  
+  .nivel-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  
+  .nivel-badge.p1 { background: rgba(248,81,73,0.15); color: var(--red); }
+  .nivel-badge.p2 { background: rgba(255,140,66,0.15); color: var(--orange); }
+  
+  .nivel-desc {
+    font-size: 13px; color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  
+  /* TOOL CARD */
+  .tool-card {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+  }
+  
+  .tool-card:hover { background: rgba(0,0,0,0.3); border-color: var(--accent); }
+  .tool-card:last-child { margin-bottom: 0; }
+  
+  .tool-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; flex-wrap: wrap;
+    gap: 10px; margin-bottom: 4px;
+  }
+  
+  .tool-name {
+    font-size: 17px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+  }
+  
+  .tool-icon { font-size: 20px; }
+  
+  .tool-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 3px 9px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  
+  .tool-badge.p1 { background: rgba(248,81,73,0.15); color: var(--red); }
+  .tool-badge.p2 { background: rgba(255,140,66,0.15); color: var(--orange); }
+  
+  .tool-purpose {
+    font-size: 13px; color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  
+  /* FRASE PARA ENTREVISTA/REUNIÃO */
+  .frase {
+    background: rgba(188,140,255,0.08);
+    border-left: 3px solid var(--purple);
+    padding: 10px 14px; border-radius: 6px;
+    font-size: 13px; color: var(--text);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  
+  .frase strong { color: var(--purple); font-style: normal; }
+  
+  /* ONDE APRENDER */
+  .tool-where {
+    font-size: 12.5px; color: var(--text);
+    background: rgba(88,166,255,0.08);
+    padding: 8px 12px; border-radius: 6px;
+    margin-bottom: 14px;
+    border-left: 3px solid var(--accent);
+  }
+  
+  .tool-where strong { color: var(--accent); }
+  
+  /* CAMINHO CRÍTICO */
+  .caminho-critico {
+    background: rgba(248,81,73,0.06);
+    border: 1px dashed rgba(248,81,73,0.3);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  
+  .caminho-critico-title {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--red);
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  .caminho-critico ul {
+    list-style: none;
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  
+  .caminho-critico li {
+    font-size: 12px;
+    background: rgba(248,81,73,0.12);
+    color: var(--text);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: "SF Mono", Monaco, monospace;
+  }
+  
+  /* LISTA DE AULAS */
+  .aulas-label {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  ul.aulas { list-style: none; }
+  
+  ul.aulas li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 5px 0; font-size: 13px;
+    border-bottom: 1px solid rgba(42,52,65,0.4);
+  }
+  
+  ul.aulas li:last-child { border-bottom: none; }
+  
+  ul.aulas input[type="checkbox"] {
+    margin-top: 4px; width: 14px; height: 14px;
+    cursor: pointer; accent-color: var(--green); flex-shrink: 0;
+  }
+  
+  ul.aulas label {
+    cursor: pointer; flex: 1; color: var(--text);
+    transition: color 0.15s;
+  }
+  
+  ul.aulas input:checked + label {
+    text-decoration: line-through; color: var(--text-dim);
+  }
+  
+  .tag {
+    display: inline-block; font-family: "SF Mono", Monaco, monospace;
+    font-size: 10px; font-weight: 600;
+    padding: 1px 6px; border-radius: 4px;
+    background: rgba(88,166,255,0.12);
+    color: var(--accent); margin-right: 6px; white-space: nowrap;
+  }
+  
+  /* ENTREGA ESPERADA */
+  .entrega {
+    background: rgba(63,185,80,0.08);
+    border-left: 3px solid var(--green);
+    padding: 12px 14px; border-radius: 6px;
+    font-size: 13px; color: var(--text);
+    margin-top: 14px;
+  }
+  
+  .entrega strong { color: var(--green); }
+  
+  .entrega ul { list-style: none; margin-top: 6px; }
+  .entrega li { padding: 3px 0; }
+  .entrega li::before { content: "📦 "; }
+  
+  /* AVISO */
+  .aviso {
+    background: rgba(210,153,34,0.08);
+    border-left: 3px solid var(--yellow);
+    padding: 10px 14px; border-radius: 6px;
+    font-size: 12.5px; color: var(--text);
+    margin-top: 10px;
+  }
+  
+  .aviso strong { color: var(--yellow); }
+  
+  /* CHECKLIST PORTFÓLIO */
+  .portfolio {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 26px;
+    margin-top: 40px;
+    border-left: 5px solid var(--green);
+  }
+  
+  .portfolio h2 {
+    font-size: 20px; font-weight: 700;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  
+  .portfolio-desc {
+    font-size: 13px; color: var(--text-dim);
+    margin-bottom: 18px;
+  }
+  
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px;
+  }
+  
+  .portfolio-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+  }
+  
+  .portfolio-item input[type="checkbox"] {
+    margin-top: 3px; width: 15px; height: 15px;
+    cursor: pointer; accent-color: var(--green); flex-shrink: 0;
+  }
+  
+  .portfolio-item label { cursor: pointer; flex: 1; }
+  
+  .portfolio-item input:checked + label {
+    text-decoration: line-through; color: var(--text-dim);
+  }
+  
+  /* CORTES */
+  .cortes {
+    background: rgba(139,148,158,0.06);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-top: 40px;
+  }
+  
+  .cortes h2 {
+    font-size: 17px; font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--text-dim);
+    display: flex; align-items: center; gap: 8px;
+  }
+  
+  .cortes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 8px;
+  }
+  
+  .corte-item {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    padding: 6px 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+  }
+  
+  .corte-item::before {
+    content: "✕ ";
+    color: var(--red);
+    font-weight: 700;
+  }
+  
+  footer {
+    text-align: center; margin-top: 48px;
+    padding-top: 20px; border-top: 1px solid var(--border);
+    color: var(--text-dim); font-size: 12.5px;
+  }
+  
+  @media (max-width: 640px) {
+    body { padding: 20px 14px; }
+    header h1 { font-size: 22px; }
+    .nivel { padding: 16px; }
+    .tool-card { padding: 16px; }
+    .nivel-title { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ QA no Trabalho — Aprender Rápido</h1>
+  <p>Foco em usar amanhã · Entrega esperada · Checklist de portfólio · Sem enrolação</p>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="value" id="totalAulas">0</div><div class="label">Itens totais</div></div>
+  <div class="stat"><div class="value" id="totalFeitas">0</div><div class="label">Concluídos</div></div>
+  <div class="stat"><div class="value">6</div><div class="label">Ferramentas</div></div>
+  <div class="stat"><div class="value">2</div><div class="label">Níveis</div></div>
+</div>
+
+<div class="global-progress">
+  <div class="global-progress-header">
+    <span>📊 Progresso geral</span>
+    <span id="globalPct">0%</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="globalBar"></div>
+  </div>
+</div>
+
+<!-- ==================== NÍVEL 1 — URGENTE ==================== -->
+<div class="nivel p1">
+  <div class="nivel-header">
+    <span class="nivel-icon">🔴</span>
+    <span class="nivel-title">Nível 1 — URGENTE (use amanhã no trabalho)</span>
+    <span class="nivel-badge p1">Fazer agora</span>
+  </div>
+  <p class="nivel-desc">Se você só puder aprender 4 ferramentas, aprenda estas. São as que você vai usar todos os dias como analista de teste.</p>
+
+  <!-- POSTMAN -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-name"><span class="tool-icon">📡</span> Postman</div>
+      <span class="tool-badge p1">Prioridade 1</span>
+    </div>
+    <div class="tool-purpose">Testar APIs REST, validar respostas JSON, conferir status code</div>
+
+    <div class="frase">
+      <strong>💬 Frase para reunião/entrevista:</strong> "Eu uso Postman para validar APIs REST, conferir status code, body JSON e automatizar collections com testes simples."
+    </div>
+
+    <div class="tool-where"><strong>Onde aprender:</strong> Júlio de Lima — Módulo 9 (Testes de API REST)</div>
+
+    <div class="caminho-critico">
+      <span class="caminho-critico-title">⚡ Caminho crítico (se tiver só 1 dia)</span>
+      <ul>
+        <li>#F158</li>
+        <li>#F160</li>
+        <li>#F161</li>
+        <li>#F163</li>
+        <li>#F164</li>
+        <li>#F165</li>
+        <li>#F166</li>
+        <li>#F169</li>
+        <li>#F172</li>
+      </ul>
+    </div>
+
+    <span class="aulas-label">📚 Todas as aulas essenciais</span>
+    <ul class="aulas">
+      <li><input type="checkbox" id="post1"><label for="post1"><span class="tag">#F158</span> Introdução a APIs</label></li>
+      <li><input type="checkbox" id="post2"><label for="post2"><span class="tag">#F159</span> Conceitos de API</label></li>
+      <li><input type="checkbox" id="post3"><label for="post3"><span class="tag">#F160</span> Métodos HTTP</label></li>
+      <li><input type="checkbox" id="post4"><label for="post4"><span class="tag">#F161</span> Status codes</label></li>
+      <li><input type="checkbox" id="post5"><label for="post5"><span class="tag">#F162</span> JSON</label></li>
+      <li><input type="checkbox" id="post6"><label for="post6"><span class="tag">#F163</span> Postman — Introdução</label></li>
+      <li><input type="checkbox" id="post7"><label for="post7"><span class="tag">#F164</span> Primeira requisição</label></li>
+      <li><input type="checkbox" id="post8"><label for="post8"><span class="tag">#F165</span> GET</label></li>
+      <li><input type="checkbox" id="post9"><label for="post9"><span class="tag">#F166</span> POST</label></li>
+      <li><input type="checkbox" id="post10"><label for="post10"><span class="tag">#F167</span> PUT</label></li>
+      <li><input type="checkbox" id="post11"><label for="post11"><span class="tag">#F168</span> DELETE</label></li>
+      <li><input type="checkbox" id="post12"><label for="post12"><span class="tag">#F169</span> Validações de resposta</label></li>
+      <li><input type="checkbox" id="post13"><label for="post13"><span class="tag">#F170</span> Autenticação</label></li>
+      <li><input type="checkbox" id="post14"><label for="post14"><span class="tag">#F171</span> Variáveis de ambiente</label></li>
+      <li><input type="checkbox" id="post15"><label for="post15"><span class="tag">#F172</span> Collections</label></li>
+      <li><input type="checkbox" id="post16"><label for="post16"><span class="tag">#F173–#F181</span> Testes automatizados, Newman e conclusão</label></li>
+    </ul>
+
+    <div class="entrega">
+      <strong>📦 Entrega esperada:</strong>
+      <ul>
+        <li>1 collection exportada (<code>postman_collection.json</code>)</li>
+        <li>5 requisições GET + 2 POST funcionando</li>
+        <li>Prints das requisições com status code visível</li>
+        <li>Tudo subido no repositório GitHub</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SQL SERVER -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-name"><span class="tool-icon">🗄️</span> SQL Server + SSMS</div>
+      <span class="tool-badge p1">Prioridade 1</span>
+    </div>
+    <div class="tool-purpose">Validar dados no banco, conferir se a aplicação gravou certo</div>
+
+    <div class="frase">
+      <strong>💬 Frase para reunião/entrevista:</strong> "Eu uso SQL para validar se a aplicação gravou os dados corretamente no banco, fazendo JOINs e queries de conferência."
+    </div>
+
+    <div class="tool-where"><strong>Onde aprender:</strong> SQL Impressionador — Módulos 4 a 15</div>
+
+    <div class="caminho-critico">
+      <span class="caminho-critico-title">⚡ Caminho crítico (se tiver só 1 dia)</span>
+      <ul>
+        <li>#F021</li>
+        <li>#F036</li>
+        <li>#F063</li>
+        <li>#F075</li>
+        <li>#F093</li>
+        <li>#F121</li>
+        <li>#F210</li>
+      </ul>
+    </div>
+
+    <span class="aulas-label">📚 Todas as aulas essenciais</span>
+    <ul class="aulas">
+      <li><input type="checkbox" id="sql1"><label for="sql1"><span class="tag">#F021–#F035</span> Introdução ao SQL + instalação</label></li>
+      <li><input type="checkbox" id="sql2"><label for="sql2"><span class="tag">#F036–#F062</span> SELECT, WHERE, ORDER BY</label></li>
+      <li><input type="checkbox" id="sql3"><label for="sql3"><span class="tag">#F063–#F074</span> Funções de Agregação (COUNT, SUM, AVG)</label></li>
+      <li><input type="checkbox" id="sql4"><label for="sql4"><span class="tag">#F075–#F092</span> GROUP BY e HAVING</label></li>
+      <li><input type="checkbox" id="sql5"><label for="sql5"><span class="tag">#F093–#F120</span> JOINs (INNER, LEFT, RIGHT)</label></li>
+      <li><input type="checkbox" id="sql6"><label for="sql6"><span class="tag">#F121–#F132</span> Group By + Joins (aplicações)</label></li>
+      <li><input type="checkbox" id="sql7"><label for="sql7"><span class="tag">#F133–#F155</span> Variáveis</label></li>
+      <li><input type="checkbox" id="sql8"><label for="sql8"><span class="tag">#F156–#F178</span> Strings e Datas</label></li>
+      <li><input type="checkbox" id="sql9"><label for="sql9"><span class="tag">#F179–#F196</span> Funções Condicionais (CASE, IF)</label></li>
+      <li><input type="checkbox" id="sql10"><label for="sql10"><span class="tag">#F197–#F209</span> SQL Views</label></li>
+      <li><input type="checkbox" id="sql11"><label for="sql11"><span class="tag">#F210–#F230</span> CRUD (INSERT, UPDATE, DELETE)</label></li>
+      <li><input type="checkbox" id="sql12"><label for="sql12"><span class="tag">#F231–#F258</span> Subqueries e CTE's</label></li>
+    </ul>
+
+    <div class="entrega">
+      <strong>📦 Entrega esperada:</strong>
+      <ul>
+        <li>Arquivo <code>queries.sql</code> com as 20 queries comentadas</li>
+        <li>Prints dos resultados no SSMS</li>
+        <li>1 query de validação (ex.: conferir se um pedido foi gravado)</li>
+        <li>Tudo subido no repositório GitHub</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GIT -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-name"><span class="tool-icon">🌿</span> Git + GitHub</div>
+      <span class="tool-badge p1">Prioridade 1</span>
+    </div>
+    <div class="tool-purpose">Versionar seu portfólio, subir casos de teste, queries e bug reports</div>
+
+    <div class="frase">
+      <strong>💬 Frase para reunião/entrevista:</strong> "Eu versiono meu portfólio de QA no GitHub, com casos de teste, queries e bug reports."
+    </div>
+
+    <div class="tool-where"><strong>Onde aprender:</strong> EBAC — Módulo 10 (Git) · ou Júlio de Lima — Bônus 20 (<span class="tag">#F328–#F335</span>)</div>
+
+    <div class="caminho-critico">
+      <span class="caminho-critico-title">⚡ Caminho crítico (se tiver só 1 dia)</span>
+      <ul>
+        <li>#F058</li>
+        <li>#F059</li>
+        <li>#F060</li>
+        <li>#F061</li>
+        <li>#F062</li>
+      </ul>
+    </div>
+
+    <span class="aulas-label">📚 Todas as aulas essenciais</span>
+    <ul class="aulas">
+      <li><input type="checkbox" id="git1"><label for="git1"><span class="tag">#F058</span> Git — Introdução</label></li>
+      <li><input type="checkbox" id="git2"><label for="git2"><span class="tag">#F059</span> Instalação e configuração</label></li>
+      <li><input type="checkbox" id="git3"><label for="git3"><span class="tag">#F060</span> add, commit, push</label></li>
+      <li><input type="checkbox" id="git4"><label for="git4"><span class="tag">#F061</span> Branches</label></li>
+      <li><input type="checkbox" id="git5"><label for="git5"><span class="tag">#F062</span> Merge e Pull Request</label></li>
+      <li><input type="checkbox" id="git6"><label for="git6"><span class="tag">#F063</span> GitHub e portfólio</label></li>
+    </ul>
+
+    <div class="entrega">
+      <strong>📦 Entrega esperada:</strong>
+      <ul>
+        <li>Repositório <code>qa-junior-portfolio</code> público</li>
+        <li>README explicando cada pasta</li>
+        <li>1 branch criada + 1 Pull Request aberto</li>
+        <li>Commits com mensagens descritivas</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- JIRA -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-name"><span class="tool-icon">📋</span> Jira</div>
+      <span class="tool-badge p1">Prioridade 1</span>
+    </div>
+    <div class="tool-purpose">Rastrear bugs, gerenciar tarefas, participar de sprints</div>
+
+    <div class="frase">
+      <strong>💬 Frase para reunião/entrevista:</strong> "Eu uso Jira para reportar bugs com passos de reprodução, severidade, prioridade e evidência."
+    </div>
+
+    <div class="tool-where"><strong>Onde aprender:</strong> Não tem módulo específico no seu material — crie conta gratuita no Jira e pratique</div>
+
+    <div class="aviso">
+      <strong>⚠️ Atenção:</strong> o Jira <strong>não tem aula específica</strong> no seu material. Mas como você já trabalha na área, provavelmente já usa. Se não, crie conta gratuita e pratique.
+    </div>
+
+    <span class="aulas-label">📚 Aulas que ajudam indiretamente</span>
+    <ul class="aulas">
+      <li><input type="checkbox" id="jira1"><label for="jira1"><span class="tag">#F039–#F057</span> Testes em Contexto Ágil (Júlio) — entende o fluxo</label></li>
+      <li><input type="checkbox" id="jira2"><label for="jira2"><span class="tag">#F112–#F157</span> Identificando o que Testar (Júlio) — aprende a reportar bug</label></li>
+      <li><input type="checkbox" id="jira3"><label for="jira3"><span class="tag">#F244–#F257</span> Gerindo Inconsistências (Júlio) — como documentar bug</label></li>
+    </ul>
+
+    <div class="entrega">
+      <strong>📦 Entrega esperada:</strong>
+      <ul>
+        <li>5 bugs cadastrados no Jira com passos de reprodução</li>
+        <li>Print do board com o fluxo (To Do → In Progress → Done)</li>
+        <li>1 print de severidade + prioridade configuradas</li>
+        <li>Tudo documentado no portfólio</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== NÍVEL 2 — DIFERENCIAL ==================== -->
+<div class="nivel p2">
+  <div class="nivel-header">
+    <span class="nivel-icon">🟠</span>
+    <span class="nivel-title">Nível 2 — DIFERENCIAL (aprenda depois)</span>
+    <span class="nivel-badge p2">Depois do nível 1</span>
+  </div>
+  <p class="nivel-desc">Ferramentas que vão te destacar no trabalho e abrir portas para automação. Aprenda só depois de dominar o Nível 1.</p>
+
+  <!-- CYPRESS -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-name"><span class="tool-icon">🌲</span> Cypress</div>
+      <span class="tool-badge p2">Prioridade 2</span>
+    </div>
+    <div class="tool-purpose">Automação web moderna, amigável para iniciantes</div>
+
+    <div class="frase">
+      <strong>💬 Frase para reunião/entrevista:</strong> "Eu uso Cypress para automatizar testes de interface, com Page Objects e Fixtures para organizar os testes."
+    </div>
+
+    <div class="tool-where"><strong>Onde aprender:</strong> EBAC — Módulos 11 e 12 (Cypress partes 1 e 2)</div>
+
+    <div class="caminho-critico">
+      <span class="caminho-critico-title">⚡ Caminho crítico (se tiver só 1 dia)</span>
+      <ul>
+        <li>#F064</li>
+        <li>#F065</li>
+        <li>#F066</li>
+        <li>#F068</li>
+        <li>#F071</li>
+      </ul>
+    </div>
+
+    <span class="aulas-label">📚 Todas as aulas essenciais</span>
+    <ul class="aulas">
+      <li><input type="checkbox" id="cy1"><label for="cy1"><span class="tag">#F064</span> Cypress — Introdução</label></li>
+      <li><input type="checkbox" id="cy2"><label for="cy2"><span class="tag">#F065</span> Instalação e configuração</label></li>
+      <li><input type="checkbox" id="cy3"><label for="cy3"><span class="tag">#F066</span> Primeiro teste</label></li>
+      <li><input type="checkbox" id="cy4"><label for="cy4"><span class="tag">#F067</span> Seletores</label></li>
+      <li><input type="checkbox" id="cy5"><label for="cy5"><span class="tag">#F068</span> Asserções</label></li>
+      <li><input type="checkbox" id="cy6"><label for="cy6"><span class="tag">#F069</span> Interações</label></li>
+      <li><input type="checkbox" id="cy7"><label for="cy7"><span class="tag">#F070</span> Hooks (beforeEach, afterEach)</label></li>
+      <li><input type="checkbox" id="cy8"><label for="cy8"><span class="tag">#F071</span> Page Objects</label></li>
+      <li><input type="checkbox" id="cy9"><label for="cy9"><span class="tag">#F072</span> Fixtures (massa de dados)</label></li>
+      <li><input type="checkbox" id="cy10"><label for="cy10"><span class="tag">#F073</span> Relatórios</label></li>
+      <li><input type="checkbox" id="cy11"><label for="cy11"><span class="tag">#F074</span> Boas práticas</label></li>
+    </ul>
+
+    <div class="entrega">
+      <strong>📦 Entrega esperada:</strong>
+      <ul>
+        <li>Projeto Cypress com 3 testes (login, busca, cadastro)</li>
+        <li>Page Objects organizados</li>
+        <li>Print do relatório de execução</li>
+        <li>Tudo subido no repositório GitHub</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DOCKER -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-name"><span class="tool-icon">🐳</span> Docker</div>
+      <span class="tool-badge p2">Prioridade 2</span>
+    </div>
+    <div class="tool-purpose">Criar ambientes de teste consistentes</div>
+
+    <div class="frase">
+      <strong>💬 Frase para reunião/entrevista:</strong> "Eu uso Docker para subir ambientes de teste isolados, garantindo que o banco e a aplicação rodem sempre iguais."
+    </div>
+
+    <div class="tool-where"><strong>Onde aprender:</strong> EBAC — Módulo 27 (Docker for Testers)</div>
+
+    <span class="aulas-label">📚 Todas as aulas essenciais</span>
+    <ul class="aulas">
+      <li><input type="checkbox" id="dock1"><label for="dock1"><span class="tag">#F158</span> Docker — Introdução</label></li>
+      <li><input type="checkbox" id="dock2"><label for="dock2"><span class="tag">#F159</span> Instalação</label></li>
+      <li><input type="checkbox" id="dock3"><label for="dock3"><span class="tag">#F160</span> Containers e imagens</label></li>
+      <li><input type="checkbox" id="dock4"><label for="dock4"><span class="tag">#F161</span> Docker Compose</label></li>
+      <li><input type="checkbox" id="dock5"><label for="dock5"><span class="tag">#F162</span> Docker para testes</label></li>
+    </ul>
+
+    <div class="entrega">
+      <strong>📦 Entrega esperada:</strong>
+      <ul>
+        <li>Container de banco de dados rodando</li>
+        <li>Conexão com SQL feita e 1 query executada</li>
+        <li>Arquivo <code>docker-compose.yml</code> no GitHub</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHECKLIST PORTFÓLIO ==================== -->
+<div class="portfolio">
+  <h2>📦 Checklist de Portfólio — o que subir no GitHub</h2>
+  <p class="portfolio-desc">Este é o seu maior diferencial. Recrutador de QA júnior ama ver portfólio com evidência prática.</p>
+
+  <div class="portfolio-grid">
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf1"><label for="pf1">Repositório <code>qa-junior-portfolio</code> criado</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf2"><label for="pf2">README explicando cada pasta</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf3"><label for="pf3">15 casos de teste documentados</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf4"><label for="pf4">3 bug reports escritos</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf5"><label for="pf5">20 queries SQL no repositório</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf6"><label for="pf6">1 collection Postman exportada</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf7"><label for="pf7">Prints das requisições Postman</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf8"><label for="pf8">Print do board do Jira com 5 bugs</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf9"><label for="pf9">3 testes Cypress automatizados</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf10"><label for="pf10">Docker Compose funcionando</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf11"><label for="pf11">LinkedIn atualizado com link do GitHub</label>
+    </div>
+    <div class="portfolio-item">
+      <input type="checkbox" id="pf12"><label for="pf12">1 Pull Request aberto e mergeado</label>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CORTES ==================== -->
+<div class="cortes">
+  <h2>✂️ O que NÃO estudar agora</h2>
+  <div class="cortes-grid">
+    <div class="corte-item">Selenium (só pleno)</div>
+    <div class="corte-item">Appium (só pleno)</div>
+    <div class="corte-item">JMeter (só pleno)</div>
+    <div class="corte-item">TestRail (não tem no material)</div>
+    <div class="corte-item">Cucumber (só quem já automatiza)</div>
+    <div class="corte-item">Nightwatch.js (obsoleto)</div>
+    <div class="corte-item">AutomatizAI (avançado demais)</div>
+    <div class="corte-item">Módulos 20 a 34 do EBAC (JS, GraphQL, iOS)</div>
+    <div class="corte-item">MySQL, PostgreSQL e Oracle do SQL</div>
+    <div class="corte-item">Numpy, Excel, Power BI e Python</div>
+    <div class="corte-item">Módulos 10 a 12 do Júlio (Web, Mobile, Desktop)</div>
+    <div class="corte-item">Módulos 14 a 21 do Júlio (automação avançada)</div>
+  </div>
+</div>
+
+<footer>
+  <p>💡 Use amanhã · Entregue no GitHub · Foque no Nível 1 primeiro</p>
+</footer>
+
+<script>
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const globalBar = document.getElementById('globalBar');
+  const globalPct = document.getElementById('globalPct');
+  const totalAulas = document.getElementById('totalAulas');
+  const totalFeitas = document.getElementById('totalFeitas');
+
+  totalAulas.textContent = checkboxes.length;
+
+  function updateProgress() {
+    const total = checkboxes.length;
+    const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+    const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+    globalBar.style.width = pct + '%';
+    globalPct.textContent = pct + '%';
+    totalFeitas.textContent = checked;
+  }
+
+  checkboxes.forEach(cb => {
+    const saved = localStorage.getItem('qa_trabalho_' + cb.id);
+    if (saved === 'true') cb.checked = true;
+    cb.addEventListener('change', () => {
+      localStorage.setItem('qa_trabalho_' + cb.id, cb.checked);
+      updateProgress();
+    });
+  });
+
+  updateProgress();
+</script>
+
+</body>
+</html>
