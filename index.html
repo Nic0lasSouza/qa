@@ -3,719 +3,673 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QA no Trabalho — Conceitos + Ferramentas</title>
+<title>Plano Essencial QA — Checkbox por Aula</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  :root {
-    --bg: #0f1419;
-    --card: #1a2028;
-    --card-hover: #222a35;
-    --border: #2a3441;
-    --text: #e6edf3;
-    --text-dim: #8b949e;
-    --accent: #58a6ff;
-    --green: #3fb950;
-    --yellow: #d29922;
-    --red: #f85149;
-    --purple: #bc8cff;
-    --cyan: #39c5cf;
-    --orange: #ff8c42;
+  :root{
+    --bg:#0f172a; --card:#1e293b; --card2:#273449; --txt:#e2e8f0; --muted:#94a3b8;
+    --accent:#38bdf8; --green:#22c55e; --yellow:#eab308; --red:#ef4444; --purple:#a78bfa;
   }
-  
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    padding: 40px 24px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  
-  header {
-    text-align: center;
-    margin-bottom: 36px;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--border);
-  }
-  
-  header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    background: linear-gradient(90deg, #bc8cff, #58a6ff, #3fb950);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 8px;
-  }
-  
-  header p { color: var(--text-dim); font-size: 15px; }
-  
-  /* STATS */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin-bottom: 28px;
-  }
-  
-  .stat {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    text-align: center;
-  }
-  
-  .stat .value { font-size: 24px; font-weight: 700; color: var(--accent); }
-  .stat .label {
-    font-size: 11px; color: var(--text-dim);
-    text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;
-  }
-  
-  /* PROGRESSO */
-  .global-progress {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 22px;
-    margin-bottom: 32px;
-  }
-  
-  .global-progress-header {
-    display: flex; justify-content: space-between;
-    align-items: center; margin-bottom: 10px;
-  }
-  
-  .global-progress-header span:first-child { font-weight: 600; font-size: 14px; }
-  .global-progress-header span:last-child { color: var(--accent); font-weight: 700; font-size: 18px; }
-  
-  .progress-bar {
-    height: 8px; background: var(--border);
-    border-radius: 4px; overflow: hidden;
-  }
-  
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #3fb950, #58a6ff);
-    width: 0%; transition: width 0.3s ease; border-radius: 4px;
-  }
-  
-  /* SEÇÃO */
-  .secao {
-    margin-bottom: 36px;
-    border-radius: 14px;
-    padding: 22px 24px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 5px solid var(--border);
-  }
-  
-  .secao.conceito { border-left-color: var(--purple); }
-  .secao.ferramenta-p1 { border-left-color: var(--red); }
-  .secao.ferramenta-p2 { border-left-color: var(--orange); }
-  
-  .secao-header {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 16px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  
-  .secao-icon { font-size: 22px; flex-shrink: 0; }
-  .secao-title { font-size: 20px; font-weight: 700; flex: 1; }
-  
-  .secao-badge {
-    display: inline-block; font-size: 10px; font-weight: 700;
-    padding: 4px 10px; border-radius: 20px;
-    text-transform: uppercase; letter-spacing: 0.5px;
-    white-space: nowrap;
-  }
-  
-  .secao-badge.conceito { background: rgba(188,140,255,0.15); color: var(--purple); }
-  .secao-badge.p1 { background: rgba(248,81,73,0.15); color: var(--red); }
-  .secao-badge.p2 { background: rgba(255,140,66,0.15); color: var(--orange); }
-  
-  .secao-desc {
-    font-size: 13px; color: var(--text-dim);
-    margin-bottom: 16px;
-  }
-  
-  /* CONCEITO CARD */
-  .conceito-card {
-    background: rgba(0,0,0,0.2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px 20px;
-    margin-bottom: 14px;
-  }
-  
-  .conceito-card:last-child { margin-bottom: 0; }
-  
-  .conceito-card h3 {
-    font-size: 15px; font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--text);
-    display: flex; align-items: center; gap: 8px;
-  }
-  
-  .conceito-card p {
-    font-size: 13px;
-    color: var(--text-dim);
-    line-height: 1.5;
-    margin-bottom: 10px;
-  }
-  
-  .conceito-card .onde-focar {
-    font-size: 12px;
-    color: var(--green);
-    background: rgba(63,185,80,0.08);
-    padding: 6px 10px;
-    border-radius: 6px;
-    border-left: 2px solid var(--green);
-    margin-bottom: 10px;
-  }
-  
-  .conceito-card .onde-focar strong { color: var(--green); }
-  
-  .aulas-label {
-    font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.8px;
-    color: var(--text-dim);
-    margin-bottom: 8px;
-    display: block;
-  }
-  
-  ul.aulas { list-style: none; }
-  
-  ul.aulas li {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 5px 0; font-size: 13px;
-    border-bottom: 1px solid rgba(42,52,65,0.4);
-  }
-  
-  ul.aulas li:last-child { border-bottom: none; }
-  
-  ul.aulas input[type="checkbox"] {
-    margin-top: 4px; width: 14px; height: 14px;
-    cursor: pointer; accent-color: var(--green); flex-shrink: 0;
-  }
-  
-  ul.aulas label {
-    cursor: pointer; flex: 1; color: var(--text);
-    transition: color 0.15s;
-  }
-  
-  ul.aulas input:checked + label {
-    text-decoration: line-through; color: var(--text-dim);
-  }
-  
-  .tag {
-    display: inline-block; font-family: "SF Mono", Monaco, monospace;
-    font-size: 10px; font-weight: 600;
-    padding: 1px 6px; border-radius: 4px;
-    background: rgba(88,166,255,0.12);
-    color: var(--accent); margin-right: 6px; white-space: nowrap;
-  }
-  
-  .curso-nome {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--purple);
-    background: rgba(188,140,255,0.1);
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-right: 6px;
-  }
-  
-  /* FERRAMENTA CARD */
-  .tool-card {
-    background: rgba(0,0,0,0.2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 22px;
-    margin-bottom: 16px;
-  }
-  
-  .tool-card:last-child { margin-bottom: 0; }
-  
-  .tool-header {
-    display: flex; justify-content: space-between;
-    align-items: flex-start; flex-wrap: wrap;
-    gap: 10px; margin-bottom: 4px;
-  }
-  
-  .tool-name {
-    font-size: 17px; font-weight: 700;
-    display: flex; align-items: center; gap: 8px;
-  }
-  
-  .tool-icon { font-size: 20px; }
-  
-  .tool-badge {
-    display: inline-block; font-size: 10px; font-weight: 700;
-    padding: 3px 9px; border-radius: 20px;
-    text-transform: uppercase; letter-spacing: 0.5px;
-    white-space: nowrap;
-  }
-  
-  .tool-badge.p1 { background: rgba(248,81,73,0.15); color: var(--red); }
-  .tool-badge.p2 { background: rgba(255,140,66,0.15); color: var(--orange); }
-  
-  .tool-purpose {
-    font-size: 13px; color: var(--text-dim);
-    margin-bottom: 12px;
-  }
-  
-  .tool-where {
-    font-size: 12.5px; color: var(--text);
-    background: rgba(88,166,255,0.08);
-    padding: 8px 12px; border-radius: 6px;
-    margin-bottom: 12px;
-    border-left: 3px solid var(--accent);
-  }
-  
-  .tool-where strong { color: var(--accent); }
-  
-  .entrega {
-    background: rgba(63,185,80,0.08);
-    border-left: 3px solid var(--green);
-    padding: 12px 14px; border-radius: 6px;
-    font-size: 13px; color: var(--text);
-    margin-top: 14px;
-  }
-  
-  .entrega strong { color: var(--green); }
-  
-  .entrega ul { list-style: none; margin-top: 6px; }
-  .entrega li { padding: 3px 0; }
-  .entrega li::before { content: "📦 "; }
-  
-  footer {
-    text-align: center; margin-top: 48px;
-    padding-top: 20px; border-top: 1px solid var(--border);
-    color: var(--text-dim); font-size: 12.5px;
-  }
-  
-  @media (max-width: 640px) {
-    body { padding: 20px 14px; }
-    header h1 { font-size: 22px; }
-    .secao { padding: 16px; }
-    .tool-card { padding: 16px; }
-    .conceito-card { padding: 14px; }
-    .secao-title { font-size: 17px; }
-  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;padding:24px;padding-top:70px}
+  .progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--purple));width:0;z-index:99;transition:width .2s}
+  .topbar{position:fixed;top:0;left:0;right:0;background:#0b1220ee;backdrop-filter:blur(8px);border-bottom:1px solid #334155;padding:10px 24px;display:flex;align-items:center;gap:16px;z-index:98;flex-wrap:wrap}
+  .topbar .gtitle{font-weight:700;font-size:.9rem;color:var(--accent)}
+  .topbar .gcount{font-size:.85rem;color:var(--muted)}
+  .topbar .gbar{flex:1;min-width:120px;height:8px;background:#273449;border-radius:999px;overflow:hidden}
+  .topbar .gbar span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--accent));width:0;transition:width .3s}
+  .topbar button{background:#ef444422;color:var(--red);border:1px solid #ef444455;padding:4px 12px;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600}
+  .topbar button:hover{background:#ef444433}
+  header{text-align:center;margin-bottom:24px}
+  h1{font-size:1.9rem;background:linear-gradient(90deg,var(--accent),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:.95rem;margin-top:6px}
+  .legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+  .badge{font-size:.75rem;padding:3px 10px;border-radius:999px;font-weight:600}
+  .b-core{background:#22c55e22;color:var(--green);border:1px solid #22c55e55}
+  .b-tool{background:#38bdf822;color:var(--accent);border:1px solid #38bdf855}
+  .b-extra{background:#eab30822;color:var(--yellow);border:1px solid #eab30855}
+  .week{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:18px;border:1px solid #334155}
+  .week h2{font-size:1.1rem;color:var(--accent);margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .week h2 .wcount{font-size:.8rem;color:var(--muted);font-weight:400}
+  .week .goal{font-size:.85rem;color:var(--muted);margin-bottom:12px;font-style:italic}
+  .group{background:var(--card2);border-radius:10px;padding:10px 14px;margin-bottom:10px;border-left:3px solid var(--accent)}
+  .group.core{border-left-color:var(--green)}
+  .group.tool{border-left-color:var(--accent)}
+  .group.extra{border-left-color:var(--yellow)}
+  .group .ghead{font-size:.8rem;color:var(--muted);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+  .group .ghead .src{color:var(--accent);font-weight:400;text-transform:none;letter-spacing:0;font-size:.75rem;margin-left:6px}
+  .lesson{display:flex;align-items:center;gap:10px;padding:5px 8px;border-radius:6px;transition:background .15s}
+  .lesson:hover{background:#1a2536}
+  .lesson.done{opacity:.55}
+  .lesson.done .lname{text-decoration:line-through;text-decoration-color:var(--green)}
+  .lesson input[type=checkbox]{width:18px;height:18px;cursor:pointer;accent-color:var(--green);flex-shrink:0}
+  .lesson .fid{font-family:monospace;font-size:.78rem;color:var(--accent);min-width:48px}
+  .lesson .lname{font-size:.88rem}
+  .lesson .sec{font-size:.65rem;background:#ef444422;color:#f87171;border:1px solid #ef444455;padding:1px 6px;border-radius:999px;margin-left:6px}
+  .tip{background:#1e3a5f;border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:.85rem;margin:12px 0}
+  .tip strong{color:var(--accent)}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+  details{background:var(--card2);border-radius:10px;padding:10px 14px;margin-bottom:10px}
+  summary{cursor:pointer;font-weight:600;list-style:none;font-size:.9rem}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸ ";color:var(--accent)}
+  details[open] summary::before{content:"▾ "}
 </style>
 </head>
 <body>
+<div class="progress" id="prog"></div>
+
+<div class="topbar">
+  <span class="gtitle">Progresso</span>
+  <span class="gcount" id="gcount">0 / 0</span>
+  <div class="gbar"><span id="gbar"></span></div>
+  <button onclick="resetAll()">Resetar</button>
+</div>
 
 <header>
-  <h1>⚡ QA no Trabalho — Conceitos + Ferramentas</h1>
-  <p>Conceitos com os <strong>#Fxxx reais</strong> + ferramentas que você usa amanhã</p>
+  <h1>Plano Essencial QA — Checkbox por Aula</h1>
+  <p class="sub">Cada aula individual tem seu próprio checkbox · progresso salvo automaticamente</p>
+  <div class="legend">
+    <span class="badge b-core">● Core</span>
+    <span class="badge b-tool">● Ferramenta</span>
+    <span class="badge b-extra">● Diferencial</span>
+  </div>
 </header>
 
-<div class="stats">
-  <div class="stat"><div class="value" id="totalAulas">0</div><div class="label">Itens totais</div></div>
-  <div class="stat"><div class="value" id="totalFeitas">0</div><div class="label">Concluídos</div></div>
-  <div class="stat"><div class="value">10</div><div class="label">Conceitos</div></div>
-  <div class="stat"><div class="value">6</div><div class="label">Ferramentas</div></div>
-</div>
+<!-- ================= SEMANA 1 ================= -->
+<section class="week" data-week="1">
+  <h2>Semana 1 — Fundamentos + Git + SQL + Nightwatch + Jenkins <span class="wcount">0/0</span></h2>
+  <p class="goal">Base teórica, versionamento, SQL até JOINs, primeiro contato com automação E2E e CI.</p>
 
-<div class="global-progress">
-  <div class="global-progress-header">
-    <span>📊 Progresso geral</span>
-    <span id="globalPct">0%</span>
-  </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="globalBar"></div>
-  </div>
-</div>
-
-<!-- ==================== CONCEITOS ==================== -->
-<div class="secao conceito">
-  <div class="secao-header">
-    <span class="secao-icon">📚</span>
-    <span class="secao-title">Conceitos essenciais</span>
-    <span class="secao-badge conceito">Base</span>
-  </div>
-  <p class="secao-desc">Cada conceito com os <code>#Fxxx</code> reais dos vídeos. Marque conforme estudar.</p>
-
-  <!-- 1. NÍVEIS DE TESTE -->
-  <div class="conceito-card">
-    <h3>1. Níveis de teste</h3>
-    <p>Onde o teste acontece no desenvolvimento: unitário, integração, sistema e aceitação.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> Gustavo Farias (<span class="tag">#F10–#F17</span>) — é o mais direto.</div>
-
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c1a"><label for="c1a"><span class="curso-nome">Gustavo</span><span class="tag">#F10–#F17</span> Níveis de teste e quando testar</label></li>
-      <li><input type="checkbox" id="c1b"><label for="c1b"><span class="curso-nome">Júlio</span><span class="tag">#F022–#F038</span> Testes no Modelo Cascata</label></li>
-      <li><input type="checkbox" id="c1c"><label for="c1c"><span class="curso-nome">EBAC</span><span class="tag">#F015–#F020</span> Fundamentos de teste</label></li>
-    </ul>
+  <div class="group core">
+    <div class="ghead">Níveis, técnicas e tipos de teste <span class="src">Gustavo Farias — Mód. 03, 04, 05</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F10"><span class="fid">#F10</span><span class="lname">Introdução aos níveis de teste</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F11"><span class="fid">#F11</span><span class="lname">Nível de teste — Unitário</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F12"><span class="fid">#F12</span><span class="lname">Nível de teste — Integração</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F13"><span class="fid">#F13</span><span class="lname">Nível de teste — Sistema</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F14"><span class="fid">#F14</span><span class="lname">Nível de teste — Aceitação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F15"><span class="fid">#F15</span><span class="lname">Quando testar</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F16"><span class="fid">#F16</span><span class="lname">Técnicas de teste — introdução</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F17"><span class="fid">#F17</span><span class="lname">Como testar</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F18"><span class="fid">#F18</span><span class="lname">Partição de equivalência</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F19"><span class="fid">#F19</span><span class="lname">Valor limite</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F20"><span class="fid">#F20</span><span class="lname">Tabela de decisão</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F21"><span class="fid">#F21</span><span class="lname">Tipos de teste — introdução</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F22"><span class="fid">#F22</span><span class="lname">Teste funcional</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F23"><span class="fid">#F23</span><span class="lname">Teste de regressão</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F24"><span class="fid">#F24</span><span class="lname">Teste de desempenho</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F25"><span class="fid">#F25</span><span class="lname">Teste de segurança</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F26"><span class="fid">#F26</span><span class="lname">Teste de usabilidade</span></label>
   </div>
 
-  <!-- 2. TIPOS DE TESTE -->
-  <div class="conceito-card">
-    <h3>2. Tipos de teste</h3>
-    <p>O que você testa no dia a dia: funcional, regressão, exploratório e usabilidade.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> Gustavo Farias (<span class="tag">#F21–#F26</span>).</div>
-
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c2a"><label for="c2a"><span class="curso-nome">Gustavo</span><span class="tag">#F21–#F26</span> Tipos de teste / O que testar</label></li>
-      <li><input type="checkbox" id="c2b"><label for="c2b"><span class="curso-nome">EBAC</span><span class="tag">#F021–#F026</span> Técnicas de testes</label></li>
-      <li><input type="checkbox" id="c2c"><label for="c2c"><span class="curso-nome">Júlio</span><span class="tag">#F112–#F157</span> Identificando o que testar</label></li>
-    </ul>
+  <div class="group core">
+    <div class="ghead">Mentalidade do QA <span class="src">Júlio de Lima — Seção 02</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F007"><span class="fid">#F007</span><span class="lname">O que é qualidade</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F008"><span class="fid">#F008</span><span class="lname">O papel do QA</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F009"><span class="fid">#F009</span><span class="lname">Prevenção vs. detecção</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F010"><span class="fid">#F010</span><span class="lname">Comunicação no time</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F011"><span class="fid">#F011</span><span class="lname">Postura profissional</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F012"><span class="fid">#F012</span><span class="lname">Empatia com o usuário</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F013"><span class="fid">#F013</span><span class="lname">Curiosidade e investigação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F014"><span class="fid">#F014</span><span class="lname">Pensamento crítico</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F015"><span class="fid">#F015</span><span class="lname">Trabalho em equipe</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F016"><span class="fid">#F016</span><span class="lname">Ética profissional</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F017"><span class="fid">#F017</span><span class="lname">Aprendizado contínuo</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F018"><span class="fid">#F018</span><span class="lname">Adaptabilidade</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F019"><span class="fid">#F019</span><span class="lname">Atenção aos detalhes</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F020"><span class="fid">#F020</span><span class="lname">Visão de negócio</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F021"><span class="fid">#F021</span><span class="lname">Conclusão da seção</span></label>
   </div>
 
-  <!-- 3. TÉCNICAS DE TESTE -->
-  <div class="conceito-card">
-    <h3>3. Técnicas de teste</h3>
-    <p>Como pensar para criar casos de teste eficientes: partição de equivalência e valor limite.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> Gustavo Farias (<span class="tag">#F18–#F20</span>).</div>
-
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c3a"><label for="c3a"><span class="curso-nome">Gustavo</span><span class="tag">#F18–#F20</span> Técnicas de teste / Como testar</label></li>
-      <li><input type="checkbox" id="c3b"><label for="c3b"><span class="curso-nome">EBAC</span><span class="tag">#F021–#F026</span> Técnicas de testes</label></li>
-      <li><input type="checkbox" id="c3c"><label for="c3c"><span class="curso-nome">Júlio</span><span class="tag">#F102–#F111</span> Técnicas de Revisão</label></li>
-    </ul>
+  <div class="group core">
+    <div class="ghead">Testes em contexto ágil <span class="src">Júlio de Lima — Seção 04</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F039"><span class="fid">#F039</span><span class="lname">Introdução ao ágil</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F040"><span class="fid">#F040</span><span class="lname">Manifesto ágil</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F041"><span class="fid">#F041</span><span class="lname">Scrum — visão geral</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F042"><span class="fid">#F042</span><span class="lname">Papéis do Scrum</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F043"><span class="fid">#F043</span><span class="lname">Cerimônias do Scrum</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F044"><span class="fid">#F044</span><span class="lname">Artefatos do Scrum</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F045"><span class="fid">#F045</span><span class="lname">Definition of Done</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F046"><span class="fid">#F046</span><span class="lname">Papel do QA no ágil</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F047"><span class="fid">#F047</span><span class="lname">Shift-left testing</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F048"><span class="fid">#F048</span><span class="lname">Testes exploratórios no ágil</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F049"><span class="fid">#F049</span><span class="lname">Automação no ágil</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F050"><span class="fid">#F050</span><span class="lname">Critérios de aceite</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F051"><span class="fid">#F051</span><span class="lname">Histórias de usuário</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F052"><span class="fid">#F052</span><span class="lname">Planning poker</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F053"><span class="fid">#F053</span><span class="lname">Retrospectiva</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F054"><span class="fid">#F054</span><span class="lname">Métricas ágeis</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F055"><span class="fid">#F055</span><span class="lname">Continuous testing</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F056"><span class="fid">#F056</span><span class="lname">Desafios do QA no ágil</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F057"><span class="fid">#F057</span><span class="lname">Conclusão da seção</span></label>
   </div>
 
-  <!-- 4. CASO DE TESTE -->
-  <div class="conceito-card">
-    <h3>4. Caso de teste</h3>
-    <p>Documento que descreve o que testar: ID, título, pré-condição, passos, resultado esperado.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> Júlio de Lima (<span class="tag">#F102–#F111</span>).</div>
-
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c4a"><label for="c4a"><span class="curso-nome">Júlio</span><span class="tag">#F102–#F111</span> Técnicas de Revisão</label></li>
-      <li><input type="checkbox" id="c4b"><label for="c4b"><span class="curso-nome">EBAC</span><span class="tag">#F027–#F032</span> Planejamento e estratégia</label></li>
-      <li><input type="checkbox" id="c4c"><label for="c4c"><span class="curso-nome">Gustavo</span><span class="tag">#F27–#F34</span> Quando os testes entram no desenvolvimento</label></li>
-    </ul>
+  <div class="group core">
+    <div class="ghead">GIT <span class="src">Ebac — Seção 10</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F058"><span class="fid">#F058</span><span class="lname">O que é Git</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F059"><span class="fid">#F059</span><span class="lname">Instalação e configuração</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F060"><span class="fid">#F060</span><span class="lname">Commit e push</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F061"><span class="fid">#F061</span><span class="lname">Branch e merge</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F062"><span class="fid">#F062</span><span class="lname">Pull request</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F063"><span class="fid">#F063</span><span class="lname">Boas práticas</span></label>
   </div>
 
-  <!-- 5. BUG REPORT -->
-  <div class="conceito-card">
-    <h3>5. Bug report</h3>
-    <p>Como reportar um bug: título, passos, esperado vs obtido, severidade e evidência.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> Júlio de Lima (<span class="tag">#F244–#F257</span>).</div>
-
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c5a"><label for="c5a"><span class="curso-nome">Júlio</span><span class="tag">#F244–#F257</span> Gerindo Inconsistências</label></li>
-      <li><input type="checkbox" id="c5b"><label for="c5b"><span class="curso-nome">EBAC</span><span class="tag">#F027–#F032</span> Planejamento e estratégia</label></li>
-    </ul>
+  <div class="group core">
+    <div class="ghead">SQL Server — até JOINs <span class="src">SQL Impressionador — Seções 3 a 8</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F016"><span class="fid">#F016</span><span class="lname">Instalação SQL Server + SSMS</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F017"><span class="fid">#F017</span><span class="lname">Restauração BD Contoso</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F021"><span class="fid">#F021</span><span class="lname">SELECT básico</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F022"><span class="fid">#F022</span><span class="lname">WHERE e operadores</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F023"><span class="fid">#F023</span><span class="lname">ORDER BY</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F036"><span class="fid">#F036</span><span class="lname">Filtros com LIKE</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F037"><span class="fid">#F037</span><span class="lname">Filtros com IN/BETWEEN</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F063"><span class="fid">#F063</span><span class="lname">Funções de agregação (COUNT, SUM, AVG)</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F075"><span class="fid">#F075</span><span class="lname">GROUP BY</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F076"><span class="fid">#F076</span><span class="lname">HAVING</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F093"><span class="fid">#F093</span><span class="lname">INNER JOIN</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F094"><span class="fid">#F094</span><span class="lname">LEFT/RIGHT JOIN</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F095"><span class="fid">#F095</span><span class="lname">FULL JOIN</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F121"><span class="fid">#F121</span><span class="lname">Group By + Joins — aplicação</span></label>
   </div>
 
-  <!-- 6. SEVERIDADE VS PRIORIDADE -->
-  <div class="conceito-card">
-    <h3>6. Severidade vs Prioridade</h3>
-    <p>Severidade = impacto técnico. Prioridade = urgência do negócio.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> Júlio de Lima (<span class="tag">#F244–#F257</span>).</div>
-
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c6a"><label for="c6a"><span class="curso-nome">Júlio</span><span class="tag">#F244–#F257</span> Gerindo Inconsistências</label></li>
-      <li><input type="checkbox" id="c6b"><label for="c6b"><span class="curso-nome">EBAC</span><span class="tag">#F027–#F032</span> Planejamento e estratégia</label></li>
-    </ul>
+  <div class="group tool">
+    <div class="ghead">Nightwatch.js <span class="src">QA Ninja — Seção 6</span></div>
+    <label class="lesson"><input type="checkbox" data-id="N16"><span class="fid">#F16</span><span class="lname">O que é Nightwatch</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N17"><span class="fid">#F17</span><span class="lname">Instalando Docker</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N18"><span class="fid">#F18</span><span class="lname">Configurando ambiente de testes</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N19"><span class="fid">#F19</span><span class="lname">Meu primeiro teste</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N20"><span class="fid">#F20</span><span class="lname">Múltiplos steps</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N21"><span class="fid">#F21</span><span class="lname">Refatorando com ES6</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N22"><span class="fid">#F22</span><span class="lname">Fluxos alternativos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N23"><span class="fid">#F23</span><span class="lname">Hooks</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N24"><span class="fid">#F24</span><span class="lname">Page Object</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N25"><span class="fid">#F25</span><span class="lname">Custom Commands</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N26"><span class="fid">#F26</span><span class="lname">Global Hooks</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N27"><span class="fid">#F27</span><span class="lname">Encapsulando Asserts</span></label>
   </div>
 
-  <!-- 7. CONTEXTO ÁGIL -->
-  <div class="conceito-card">
-    <h3>7. Contexto ágil (Scrum/Kanban)</h3>
-    <p>Como o QA se encaixa em um time ágil: daily, planning, review, retrospectiva.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> Júlio de Lima (<span class="tag">#F039–#F057</span>).</div>
-
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c7a"><label for="c7a"><span class="curso-nome">Júlio</span><span class="tag">#F039–#F057</span> Testes em Contexto Ágil</label></li>
-      <li><input type="checkbox" id="c7b"><label for="c7b"><span class="curso-nome">EBAC</span><span class="tag">#F033–#F038</span> Metodologias ágeis</label></li>
-      <li><input type="checkbox" id="c7c"><label for="c7c"><span class="curso-nome">EBAC</span><span class="tag">#F039–#F045</span> Fluxo de trabalho ágil</label></li>
-      <li><input type="checkbox" id="c7d"><label for="c7d"><span class="curso-nome">EBAC</span><span class="tag">#F046–#F051</span> Técnicas de teste Ágil</label></li>
-    </ul>
+  <div class="group tool">
+    <div class="ghead">Jenkins — conceito + GitHub Actions <span class="src">QA Ninja — Seção 8</span></div>
+    <label class="lesson"><input type="checkbox" data-id="N44"><span class="fid">#F44</span><span class="lname">Jenkins em container Docker</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N45"><span class="fid">#F45</span><span class="lname">O que são pipelines</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N46"><span class="fid">#F46</span><span class="lname">Repositório Git</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N47"><span class="fid">#F47</span><span class="lname">Pipeline Script from SCM</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N48"><span class="fid">#F48</span><span class="lname">Dockerfile do agente</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N49"><span class="fid">#F49</span><span class="lname">Relatórios de testes</span></label>
+    <label class="lesson"><input type="checkbox" data-id="N50"><span class="fid">#F50</span><span class="lname">Diretiva post</span></label>
   </div>
 
-  <!-- 8. API REST -->
-  <div class="conceito-card">
-    <h3>8. API REST</h3>
-    <p>Como funciona uma API: métodos HTTP, status codes e JSON.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> Júlio de Lima (<span class="tag">#F158–#F181</span>).</div>
+  <div class="tip"><strong>Regra da semana:</strong> SQL só até JOINs. Nightwatch só até Page Object. Jenkins só conceito — pratique CI no GitHub Actions.</div>
+</section>
 
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c8a"><label for="c8a"><span class="curso-nome">Júlio</span><span class="tag">#F158–#F181</span> Testes de API REST</label></li>
-      <li><input type="checkbox" id="c8b"><label for="c8b"><span class="curso-nome">EBAC</span><span class="tag">#F075–#F081</span> Testes de API e Contrato</label></li>
-      <li><input type="checkbox" id="c8c"><label for="c8c"><span class="curso-nome">EBAC</span><span class="tag">#F082–#F087</span> Testes Automatizados de API REST</label></li>
-    </ul>
+<!-- ================= SEMANA 2 ================= -->
+<section class="week" data-week="2">
+  <h2>Semana 2 — API (REST + automação) + Cypress <span class="wcount">0/0</span></h2>
+  <p class="goal">Testar API manualmente e automatizar; dominar Cypress até Page Object.</p>
+
+  <div class="group core">
+    <div class="ghead">Testes de API REST — teoria + Postman <span class="src">Júlio de Lima — Seção 09</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F158"><span class="fid">#F158</span><span class="lname">O que é uma API</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F159"><span class="fid">#F159</span><span class="lname">Métodos HTTP</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F160"><span class="fid">#F160</span><span class="lname">Status codes</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F161"><span class="fid">#F161</span><span class="lname">JSON</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F162"><span class="fid">#F162</span><span class="lname">Postman — instalação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F163"><span class="fid">#F163</span><span class="lname">Postman — collections</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F164"><span class="fid">#F164</span><span class="lname">Postman — asserts</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F165"><span class="fid">#F165</span><span class="lname">Postman — variáveis de ambiente</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F166"><span class="fid">#F166</span><span class="lname">Testando GET</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F167"><span class="fid">#F167</span><span class="lname">Testando POST</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F168"><span class="fid">#F168</span><span class="lname">Testando PUT/PATCH</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F169"><span class="fid">#F169</span><span class="lname">Testando DELETE</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F170"><span class="fid">#F170</span><span class="lname">Testes negativos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F171"><span class="fid">#F171</span><span class="lname">Autenticação em API</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F172"><span class="fid">#F172</span><span class="lname">Boas práticas</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F173"><span class="fid">#F173</span><span class="lname">Documentação de API</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F174"><span class="fid">#F174</span><span class="lname">Swagger</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F175"><span class="fid">#F175</span><span class="lname">Newman (Postman CLI)</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F176"><span class="fid">#F176</span><span class="lname">CI com Postman</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F177"><span class="fid">#F177</span><span class="lname">Mock de API</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F178"><span class="fid">#F178</span><span class="lname">Contract testing — visão</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F179"><span class="fid">#F179</span><span class="lname">Rate limiting</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F180"><span class="fid">#F180</span><span class="lname">Idempotência</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F181"><span class="fid">#F181</span><span class="lname">Conclusão da seção</span></label>
   </div>
 
-  <!-- 9. TESTES DE UI -->
-  <div class="conceito-card">
-    <h3>9. Testes de UI</h3>
-    <p>Testar a interface do usuário: botões, formulários, navegação.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> EBAC (<span class="tag">#F052–#F057</span>).</div>
-
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c9a"><label for="c9a"><span class="curso-nome">EBAC</span><span class="tag">#F052–#F057</span> Testes de UI</label></li>
-      <li><input type="checkbox" id="c9b"><label for="c9b"><span class="curso-nome">Júlio</span><span class="tag">#F182–#F204</span> Testes Web</label></li>
-    </ul>
+  <div class="group core">
+    <div class="ghead">Automação de API REST <span class="src">Ebac — Seção 14</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F082"><span class="fid">#F082</span><span class="lname">Introdução à automação de API</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F083"><span class="fid">#F083</span><span class="lname">Escolha do framework (Supertest/RestAssured)</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F084"><span class="fid">#F084</span><span class="lname">Primeiro teste automatizado</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F085"><span class="fid">#F085</span><span class="lname">Asserts e validações</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F086"><span class="fid">#F086</span><span class="lname">Organização do projeto</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F087"><span class="fid">#F087</span><span class="lname">Boas práticas</span></label>
   </div>
 
-  <!-- 10. GIT E GITHUB -->
-  <div class="conceito-card">
-    <h3>10. Git e GitHub</h3>
-    <p>Versionar código, subir portfólio, trabalhar em equipe.</p>
-    <div class="onde-focar"><strong>🎯 Onde focar:</strong> EBAC (<span class="tag">#F058–#F063</span>).</div>
-
-    <span class="aulas-label">📚 Aulas</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="c10a"><label for="c10a"><span class="curso-nome">EBAC</span><span class="tag">#F058–#F063</span> Git</label></li>
-      <li><input type="checkbox" id="c10b"><label for="c10b"><span class="curso-nome">Júlio</span><span class="tag">#F328–#F335</span> Bônus Git e GitHub</label></li>
-    </ul>
+  <div class="group tool">
+    <div class="ghead">Cypress — Parte 1 e 2 <span class="src">Ebac — Seções 11 e 12</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F064"><span class="fid">#F064</span><span class="lname">Instalação do Cypress</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F065"><span class="fid">#F065</span><span class="lname">Primeiro teste</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F066"><span class="fid">#F066</span><span class="lname">Seletores</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F067"><span class="fid">#F067</span><span class="lname">Asserts</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F068"><span class="fid">#F068</span><span class="lname">Page Object básico</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F069"><span class="fid">#F069</span><span class="lname">Fixtures</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F070"><span class="fid">#F070</span><span class="lname">Custom commands</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F071"><span class="fid">#F071</span><span class="lname">Interceptação de requests</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F072"><span class="fid">#F072</span><span class="lname">Testes de formulário</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F073"><span class="fid">#F073</span><span class="lname">Upload de arquivo</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F074"><span class="fid">#F074</span><span class="lname">Boas práticas</span></label>
   </div>
-</div>
 
-<!-- ==================== FERRAMENTAS P1 ==================== -->
-<div class="secao ferramenta-p1">
-  <div class="secao-header">
-    <span class="secao-icon">🔴</span>
-    <span class="secao-title">Ferramentas — Nível 1 (use amanhã)</span>
-    <span class="secao-badge p1">Urgente</span>
+  <div class="group tool">
+    <div class="ghead">Cypress — avançado <span class="src">Ebac — Seções 22 e 23</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F128"><span class="fid">#F128</span><span class="lname">Organização avançada</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F129"><span class="fid">#F129</span><span class="lname">Custom commands avançados</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F130"><span class="fid">#F130</span><span class="lname">Fixtures avançadas</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F131"><span class="fid">#F131</span><span class="lname">Page Objects avançados</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F132"><span class="fid">#F132</span><span class="lname">Relatórios</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F133"><span class="fid">#F133</span><span class="lname">Projeto completo — parte 1</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F134"><span class="fid">#F134</span><span class="lname">Projeto completo — parte 2</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F135"><span class="fid">#F135</span><span class="lname">Projeto completo — parte 3</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F136"><span class="fid">#F136</span><span class="lname">Projeto completo — parte 4</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F137"><span class="fid">#F137</span><span class="lname">Projeto completo — parte 5</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F138"><span class="fid">#F138</span><span class="lname">Projeto completo — parte 6</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F139"><span class="fid">#F139</span><span class="lname">Encerramento</span></label>
   </div>
-  <p class="secao-desc">As 4 ferramentas que você vai usar todos os dias como analista de teste.</p>
 
-  <!-- POSTMAN -->
-  <div class="tool-card">
-    <div class="tool-header">
-      <div class="tool-name"><span class="tool-icon">📡</span> Postman</div>
-      <span class="tool-badge p1">Prioridade 1</span>
+  <div class="group core">
+    <div class="ghead">Gerindo inconsistências <span class="src">Júlio de Lima — Seção 13</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F244"><span class="fid">#F244</span><span class="lname">O que é um bug</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F245"><span class="fid">#F245</span><span class="lname">Ciclo de vida do bug</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F246"><span class="fid">#F246</span><span class="lname">Severidade</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F247"><span class="fid">#F247</span><span class="lname">Prioridade</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F248"><span class="fid">#F248</span><span class="lname">Como reportar bug</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F249"><span class="fid">#F249</span><span class="lname">Evidências</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F250"><span class="fid">#F250</span><span class="lname">Jira — visão</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F251"><span class="fid">#F251</span><span class="lname">Ferramentas de bug tracking</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F252"><span class="fid">#F252</span><span class="lname">Triagem de bugs</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F253"><span class="fid">#F253</span><span class="lname">Duplicidade</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F254"><span class="fid">#F254</span><span class="lname">Regressão pós-correção</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F255"><span class="fid">#F255</span><span class="lname">Métricas de bugs</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F256"><span class="fid">#F256</span><span class="lname">Comunicação com dev</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F257"><span class="fid">#F257</span><span class="lname">Conclusão</span></label>
+  </div>
+
+  <div class="tip"><strong>Regra da semana:</strong> teste API pública real (JSONPlaceholder, ViaCEP). Automatize 5 requests. Cypress em site real (saucedemo.com).</div>
+</section>
+
+<!-- ================= SEMANA 3 ================= -->
+<section class="week" data-week="3">
+  <h2>Semana 3 — Mobile (Appium) + Performance (JMeter) + CI/CD + Docker <span class="wcount">0/0</span></h2>
+  <p class="goal">“Hello world” funcional de Appium e JMeter; pipeline com Docker.</p>
+
+  <div class="group tool">
+    <div class="ghead">Testes Mobile com Android (Appium) <span class="src">Júlio de Lima — Seção 11</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F205"><span class="fid">#F205</span><span class="lname">Introdução ao mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F206"><span class="fid">#F206</span><span class="lname">Android Studio</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F207"><span class="fid">#F207</span><span class="lname">Emulador Android</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F208"><span class="fid">#F208</span><span class="lname">Appium — instalação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F209"><span class="fid">#F209</span><span class="lname">Appium Inspector</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F210"><span class="fid">#F210</span><span class="lname">Primeiro teste mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F211"><span class="fid">#F211</span><span class="lname">Seletores mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F212"><span class="fid">#F212</span><span class="lname">Page Object mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F213"><span class="fid">#F213</span><span class="lname">Gestos e swipes</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F214"><span class="fid">#F214</span><span class="lname">Asserts mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F215"><span class="fid">#F215</span><span class="lname">Testes em apps híbridos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F216"><span class="fid">#F216</span><span class="lname">Testes em apps nativos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F217"><span class="fid">#F217</span><span class="lname">Device farm</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F218"><span class="fid">#F218</span><span class="lname">Boas práticas mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F219"><span class="fid">#F219</span><span class="lname">CI mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F220"><span class="fid">#F220</span><span class="lname">Relatórios mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F221"><span class="fid">#F221</span><span class="lname">Desafios mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F222"><span class="fid">#F222</span><span class="lname">Testes em iOS — visão</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F223"><span class="fid">#F223</span><span class="lname">Ferramentas complementares</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F224"><span class="fid">#F224</span><span class="lname">Debug mobile</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F225"><span class="fid">#F225</span><span class="lname">Conclusão</span></label>
+  </div>
+
+  <div class="group tool">
+    <div class="ghead">Bônus — Appium e Java <span class="src">Vinicius Pessoni — Seção 13</span></div>
+    <label class="lesson"><input type="checkbox" data-id="P96"><span class="fid">#F096</span><span class="lname">Intro Appium + Java</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P97"><span class="fid">#F097</span><span class="lname">Configuração Java</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P98"><span class="fid">#F098</span><span class="lname">Primeiro teste Java</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P99"><span class="fid">#F099</span><span class="lname">Seletores</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P100"><span class="fid">#F100</span><span class="lname">Page Object</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P101"><span class="fid">#F101</span><span class="lname">Asserts</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P102"><span class="fid">#F102</span><span class="lname">Esperas</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P103"><span class="fid">#F103</span><span class="lname">Gestos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P104"><span class="fid">#F104</span><span class="lname">Apps híbridos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P105"><span class="fid">#F105</span><span class="lname">Relatórios</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P106"><span class="fid">#F106</span><span class="lname">CI</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P107"><span class="fid">#F107</span><span class="lname">Boas práticas</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P108"><span class="fid">#F108</span><span class="lname">Debug</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P109"><span class="fid">#F109</span><span class="lname">Device farm</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P110"><span class="fid">#F110</span><span class="lname">Desafios</span></label>
+    <label class="lesson"><input type="checkbox" data-id="P111"><span class="fid">#F111</span><span class="lname">Encerramento</span></label>
+  </div>
+
+  <div class="group tool">
+    <div class="ghead">Performance — JMeter <span class="src">Júlio de Lima — Seção 16</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F285"><span class="fid">#F285</span><span class="lname">Introdução a performance</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F286"><span class="fid">#F286</span><span class="lname">JMeter — instalação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F287"><span class="fid">#F287</span><span class="lname">Thread Group</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F288"><span class="fid">#F288</span><span class="lname">HTTP Request</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F289"><span class="fid">#F289</span><span class="lname">Assertions</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F290"><span class="fid">#F290</span><span class="lname">Listeners</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F291"><span class="fid">#F291</span><span class="lname">Aggregate Report</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F292"><span class="fid">#F292</span><span class="lname">Simulando 10 usuários</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F293"><span class="fid">#F293</span><span class="lname">Correlação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F294"><span class="fid">#F294</span><span class="lname">Parametrização</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F295"><span class="fid">#F295</span><span class="lname">Distributed testing</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F296"><span class="fid">#F296</span><span class="lname">Boas práticas</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F297"><span class="fid">#F297</span><span class="lname">Análise de resultados</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F298"><span class="fid">#F298</span><span class="lname">Gargalos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F299"><span class="fid">#F299</span><span class="lname">Conclusão</span></label>
+  </div>
+
+  <div class="group tool">
+    <div class="ghead">Integração Contínua + Docker <span class="src">Ebac — Seções 26 e 27</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F153"><span class="fid">#F153</span><span class="lname">Introdução a CI</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F154"><span class="fid">#F154</span><span class="lname">Pipeline</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F155"><span class="fid">#F155</span><span class="lname">GitHub Actions</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F156"><span class="fid">#F156</span><span class="lname">Rodando testes no CI</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F157"><span class="fid">#F157</span><span class="lname">Boas práticas CI</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F158"><span class="fid">#F158</span><span class="lname">Docker — instalação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F159"><span class="fid">#F159</span><span class="lname">Docker — containers</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F160"><span class="fid">#F160</span><span class="lname">Docker — imagens</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F161"><span class="fid">#F161</span><span class="lname">Docker — compose</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F162"><span class="fid">#F162</span><span class="lname">Docker para testes</span></label>
+  </div>
+
+  <div class="tip"><strong>Gargalo:</strong> Appium é o setup mais chato. Se travar, siga para JMeter e volte. Use Docker para subir bancos sem instalar nada.</div>
+</section>
+
+<!-- ================= SEMANA 4 ================= -->
+<section class="week" data-week="4">
+  <h2>Semana 4 — Bancos (Oracle, MySQL, PostgreSQL) + Power BI + Excel <span class="wcount">0/0</span></h2>
+  <p class="goal">Diferenças de sintaxe entre bancos e validação de dados em BI/Excel.</p>
+
+  <div class="group extra">
+    <div class="ghead">Oracle — diferenças essenciais <span class="src">SQL Impressionador — Seções 62 a 68</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F606"><span class="fid">#F606</span><span class="lname">Contas de usuário</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F607"><span class="fid">#F607</span><span class="lname">Primeiros passos SQL Developer</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F611"><span class="fid">#F611</span><span class="lname">SELECT Oracle</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F627"><span class="fid">#F627</span><span class="lname">Ordenando e filtrando</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F642"><span class="fid">#F642</span><span class="lname">Funções de número, string e data</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F648"><span class="fid">#F648</span><span class="lname">NVL e funções NULL</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F652"><span class="fid">#F652</span><span class="lname">Agregação e agrupamentos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F662"><span class="fid">#F662</span><span class="lname">JOINs e operadores SET</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F671"><span class="fid">#F671</span><span class="lname">Encerramento</span></label>
+  </div>
+
+  <div class="group extra">
+    <div class="ghead">MySQL — diferenças essenciais <span class="src">SQL Impressionador — Seções 32 a 40</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F454"><span class="fid">#F454</span><span class="lname">Introdução MySQL</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F459"><span class="fid">#F459</span><span class="lname">Instalação e importação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F463"><span class="fid">#F463</span><span class="lname">Consultas básicas</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F473"><span class="fid">#F473</span><span class="lname">Filtros</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F480"><span class="fid">#F480</span><span class="lname">Agregação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F483"><span class="fid">#F483</span><span class="lname">Agrupamentos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F487"><span class="fid">#F487</span><span class="lname">Variáveis</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F490"><span class="fid">#F490</span><span class="lname">Funções de texto e data</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F501"><span class="fid">#F501</span><span class="lname">JOINs</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F510"><span class="fid">#F510</span><span class="lname">Funções condicionais</span></label>
+  </div>
+
+  <div class="group extra">
+    <div class="ghead">PostgreSQL — diferenças essenciais <span class="src">SQL Impressionador — Seções 47 a 51</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F551"><span class="fid">#F551</span><span class="lname">Instalação PostgreSQL</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F554"><span class="fid">#F554</span><span class="lname">Queries básicas</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F559"><span class="fid">#F559</span><span class="lname">Filtros</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F565"><span class="fid">#F565</span><span class="lname">Agregação e agrupamentos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F570"><span class="fid">#F570</span><span class="lname">JOINs</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F577"><span class="fid">#F577</span><span class="lname">Views</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F578"><span class="fid">#F578</span><span class="lname">CRUD</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F582"><span class="fid">#F582</span><span class="lname">Funções de número, texto e data</span></label>
+  </div>
+
+  <div class="group tool">
+    <div class="ghead">Integração SQL Server + Excel + Power BI <span class="src">SQL Impressionador — Seções 28 e 29</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F402"><span class="fid">#F402</span><span class="lname">Excel — Obter Dados</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F403"><span class="fid">#F403</span><span class="lname">Excel — conexão SQL Server</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F404"><span class="fid">#F404</span><span class="lname">Excel — importar tabela</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F405"><span class="fid">#F405</span><span class="lname">Excel — validar números</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F406"><span class="fid">#F406</span><span class="lname">Excel — atualização</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F425"><span class="fid">#F425</span><span class="lname">Power BI — instalação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F426"><span class="fid">#F426</span><span class="lname">Power BI — conexão SQL Server</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F427"><span class="fid">#F427</span><span class="lname">Power BI — gráfico simples</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F428"><span class="fid">#F428</span><span class="lname">Power BI — validar dados</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F429"><span class="fid">#F429</span><span class="lname">Power BI — publicação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F444"><span class="fid">#F444</span><span class="lname">Encerramento</span></label>
+  </div>
+
+  <div class="group core">
+    <div class="ghead">Métricas de qualidade <span class="src">Ebac — Seção 31</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F179"><span class="fid">#F179</span><span class="lname">Introdução a métricas</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F180"><span class="fid">#F180</span><span class="lname">Defeitos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F181"><span class="fid">#F181</span><span class="lname">Cobertura</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F182"><span class="fid">#F182</span><span class="lname">Escape rate</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F183"><span class="fid">#F183</span><span class="lname">Conclusão</span></label>
+  </div>
+
+  <div class="tip"><strong>Estratégia:</strong> suba cada banco via Docker e rode as mesmas queries do SQL Server para comparar sintaxe.</div>
+</section>
+
+<!-- ================= SEMANA 5 ================= -->
+<section class="week" data-week="5">
+  <h2>Semana 5 — Contratos (PactJS) + GraphQL + Supertest + Segurança <span class="wcount">0/0</span></h2>
+  <p class="goal">Teste de contrato consumer-driven, teste de API GraphQL e visão de segurança.</p>
+
+  <div class="group extra">
+    <div class="ghead">GraphQL, Supertest e PactJS <span class="src">Ebac — Seção 24</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F140"><span class="fid">#F140</span><span class="lname">Introdução a GraphQL</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F141"><span class="fid">#F141</span><span class="lname">Queries GraphQL</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F142"><span class="fid">#F142</span><span class="lname">Mutations GraphQL</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F143"><span class="fid">#F143</span><span class="lname">Supertest — intro</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F144"><span class="fid">#F144</span><span class="lname">PactJS — conceito</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F145"><span class="fid">#F145</span><span class="lname">PactJS — consumer</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F146"><span class="fid">#F146</span><span class="lname">PactJS — provider</span></label>
+  </div>
+
+  <div class="group tool">
+    <div class="ghead">Testes de API e Contrato — reforço <span class="src">Ebac — Seção 13</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F075"><span class="fid">#F075</span><span class="lname">Conceito de contrato</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F076"><span class="fid">#F076</span><span class="lname">Mock provider</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F077"><span class="fid">#F077</span><span class="lname">Pact file</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F078"><span class="fid">#F078</span><span class="lname">Verificação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F079"><span class="fid">#F079</span><span class="lname">CI de contrato</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F080"><span class="fid">#F080</span><span class="lname">Boas práticas</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F081"><span class="fid">#F081</span><span class="lname">Encerramento</span></label>
+  </div>
+
+  <div class="group extra">
+    <div class="ghead">Testes de Segurança <span class="src">Ebac — Seção 33</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F189"><span class="fid">#F189</span><span class="lname">Introdução a segurança <span class="sec">SEG</span></span></label>
+    <label class="lesson"><input type="checkbox" data-id="F190"><span class="fid">#F190</span><span class="lname">Autenticação e autorização <span class="sec">SEG</span></span></label>
+    <label class="lesson"><input type="checkbox" data-id="F191"><span class="fid">#F191</span><span class="lname">OWASP básico <span class="sec">SEG</span></span></label>
+    <label class="lesson"><input type="checkbox" data-id="F192"><span class="fid">#F192</span><span class="lname">Ferramentas de apoio <span class="sec">SEG</span></span></label>
+    <label class="lesson"><input type="checkbox" data-id="F193"><span class="fid">#F193</span><span class="lname">Práticas no dia a dia <span class="sec">SEG</span></span></label>
+    <label class="lesson"><input type="checkbox" data-id="F194"><span class="fid">#F194</span><span class="lname">Encerramento da seção <span class="sec">SEG</span></span></label>
+  </div>
+
+  <div class="tip"><strong>Prática:</strong> API GraphQL pública no Postman. PactJS: tutorial oficial gerando pact file. Segurança: OWASP ZAP em site de teste.</div>
+</section>
+
+<!-- ================= SEMANA 6 ================= -->
+<section class="week" data-week="6">
+  <h2>Semana 6 — Consolidação + Projeto Final + Entrevista <span class="wcount">0/0</span></h2>
+  <p class="goal">Integrar tudo em 1 repositório e preparar narrativa de entrevista.</p>
+
+  <div class="group core">
+    <div class="ghead">Projeto Final <span class="src">Ebac — Seção 34</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F195"><span class="fid">#F195</span><span class="lname">Projeto final — parte 1</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F196"><span class="fid">#F196</span><span class="lname">Projeto final — parte 2</span></label>
+  </div>
+
+  <div class="group core">
+    <div class="ghead">Entrevistas <span class="src">Júlio de Lima — Seção 18</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F301"><span class="fid">#F301</span><span class="lname">Preparação para entrevista</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F302"><span class="fid">#F302</span><span class="lname">Perguntas comuns</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F303"><span class="fid">#F303</span><span class="lname">Como falar de projetos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F304"><span class="fid">#F304</span><span class="lname">Portfólio</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F305"><span class="fid">#F305</span><span class="lname">Comportamental</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F306"><span class="fid">#F306</span><span class="lname">Técnica</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F307"><span class="fid">#F307</span><span class="lname">Dinâmica</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F308"><span class="fid">#F308</span><span class="lname">Feedback</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F309"><span class="fid">#F309</span><span class="lname">Negociação</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F310"><span class="fid">#F310</span><span class="lname">Red flags</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F311"><span class="fid">#F311</span><span class="lname">Cases</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F312"><span class="fid">#F312</span><span class="lname">Simulações</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F313"><span class="fid">#F313</span><span class="lname">Encerramento</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F314"><span class="fid">#F314</span><span class="lname">Bônus</span></label>
+  </div>
+
+  <div class="group core">
+    <div class="ghead">Currículo e preparo <span class="src">Vinicius Pessoni — Seção 8</span></div>
+    <label class="lesson"><input type="checkbox" data-id="F024"><span class="fid">#F024</span><span class="lname">Currículo — estrutura</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F025"><span class="fid">#F025</span><span class="lname">Currículo — projetos</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F026"><span class="fid">#F026</span><span class="lname">LinkedIn</span></label>
+    <label class="lesson"><input type="checkbox" data-id="F027"><span class="fid">#F027</span><span class="lname">Preparo para entrevistas</span></label>
+  </div>
+
+  <div class="group extra">
+    <div class="ghead">CTFL (bônus — se for certificar) <span class="src">Vinicius Pessoni — Seção 11</span></div>
+    <details><summary>Ver todas as aulas CTFL (#F042–#F093)</summary>
+      <label class="lesson"><input type="checkbox" data-id="F042"><span class="fid">#F042</span><span class="lname">Fundamentos CTFL</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F043"><span class="fid">#F043</span><span class="lname">Princípios de teste</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F044"><span class="fid">#F044</span><span class="lname">Processo de teste</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F045"><span class="fid">#F045</span><span class="lname">Psicologia do teste</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F046"><span class="fid">#F046</span><span class="lname">Ciclo de vida</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F047"><span class="fid">#F047</span><span class="lname">Níveis de teste</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F048"><span class="fid">#F048</span><span class="lname">Tipos de teste</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F049"><span class="fid">#F049</span><span class="lname">Teste estático</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F050"><span class="fid">#F050</span><span class="lname">Revisão</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F051"><span class="fid">#F051</span><span class="lname">Técnicas — caixa-preta</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F052"><span class="fid">#F052</span><span class="lname">Técnicas — caixa-branca</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F053"><span class="fid">#F053</span><span class="lname">Técnicas — experiência</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F054"><span class="fid">#F054</span><span class="lname">Gestão de teste</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F055"><span class="fid">#F055</span><span class="lname">Planejamento</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F056"><span class="fid">#F056</span><span class="lname">Monitoramento</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F057"><span class="fid">#F057</span><span class="lname">Controle</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F058"><span class="fid">#F058</span><span class="lname">Configuração</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F059"><span class="fid">#F059</span><span class="lname">Riscos</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F060"><span class="fid">#F060</span><span class="lname">Ferramentas</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F061"><span class="fid">#F061</span><span class="lname">Automação</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F062"><span class="fid">#F062</span><span class="lname">Revisão final</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F063"><span class="fid">#F063</span><span class="lname">Simulado 1</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F064"><span class="fid">#F064</span><span class="lname">Simulado 2</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F065"><span class="fid">#F065</span><span class="lname">Simulado 3</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F066"><span class="fid">#F066</span><span class="lname">Simulado 4</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F067"><span class="fid">#F067</span><span class="lname">Simulado 5</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F068"><span class="fid">#F068</span><span class="lname">Revisão simulado 1</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F069"><span class="fid">#F069</span><span class="lname">Revisão simulado 2</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F070"><span class="fid">#F070</span><span class="lname">Revisão simulado 3</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F071"><span class="fid">#F071</span><span class="lname">Revisão simulado 4</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F072"><span class="fid">#F072</span><span class="lname">Revisão simulado 5</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F073"><span class="fid">#F073</span><span class="lname">Dicas de prova</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F074"><span class="fid">#F074</span><span class="lname">Inscrição</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F075"><span class="fid">#F075</span><span class="lname">Dia da prova</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F076"><span class="fid">#F076</span><span class="lname">Resultado</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F077"><span class="fid">#F077</span><span class="lname">Renovação</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F078"><span class="fid">#F078</span><span class="lname">Recursos</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F079"><span class="fid">#F079</span><span class="lname">Glossário</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F080"><span class="fid">#F080</span><span class="lname">Referências</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F081"><span class="fid">#F081</span><span class="lname">Encerramento parcial</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F082"><span class="fid">#F082</span><span class="lname">Revisão 1</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F083"><span class="fid">#F083</span><span class="lname">Revisão 2</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F084"><span class="fid">#F084</span><span class="lname">Revisão 3</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F085"><span class="fid">#F085</span><span class="lname">Revisão 4</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F086"><span class="fid">#F086</span><span class="lname">Revisão 5</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F087"><span class="fid">#F087</span><span class="lname">Revisão 6</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F088"><span class="fid">#F088</span><span class="lname">Revisão 7</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F089"><span class="fid">#F089</span><span class="lname">Revisão 8</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F090"><span class="fid">#F090</span><span class="lname">Revisão 9</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F091"><span class="fid">#F091</span><span class="lname">Revisão 10</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F092"><span class="fid">#F092</span><span class="lname">Revisão 11</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F093"><span class="fid">#F093</span><span class="lname">Encerramento CTFL</span></label>
+    </details>
+  </div>
+
+  <div class="tip"><strong>Entrega:</strong> 1 repo no GitHub com README explicando Cypress, Supertest, Nightwatch, JMeter, queries SQL comparadas, Pact file, GraphQL collection, testes de segurança, GitHub Action rodando tudo.</div>
+</section>
+
+<!-- ================= CORTE CONSCIENTE ================= -->
+<section class="week" data-week="0">
+  <h2>⏸️ Corte consciente — adiar sem prejuízo</h2>
+  <p class="goal">Itens que podem esperar até você estar empregado.</p>
+  <details><summary>Ver itens adiados</summary>
+    <div class="group extra"><div class="ghead">Adiados</div>
+      <label class="lesson"><input type="checkbox" data-id="F226"><span class="fid">#F226</span><span class="lname">Testes Desktop</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F169"><span class="fid">#F169</span><span class="lname">iOS</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F170"><span class="fid">#F170</span><span class="lname">Mobile em CI</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F259"><span class="fid">#F259</span><span class="lname">Loops SQL</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F268"><span class="fid">#F268</span><span class="lname">Window Functions</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F381"><span class="fid">#F381</span><span class="lname">Triggers</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F393"><span class="fid">#F393</span><span class="lname">Pivot Table</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F776"><span class="fid">#F776</span><span class="lname">Modelagem de BD</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F305"><span class="fid">#F305</span><span class="lname">Python / Numpy</span></label>
+      <label class="lesson"><input type="checkbox" data-id="F315"><span class="fid">#F315</span><span class="lname">LinkedIn Campeão + Lives</span></label>
     </div>
-    <div class="tool-purpose">Testar APIs REST, validar respostas JSON, conferir status code</div>
-
-    <div class="tool-where"><strong>Onde aprender:</strong> Júlio de Lima — Módulo 9 (<span class="tag">#F158–#F181</span>)</div>
-
-    <span class="aulas-label">📚 Aulas essenciais</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="post1"><label for="post1"><span class="tag">#F158</span> Introdução a APIs</label></li>
-      <li><input type="checkbox" id="post2"><label for="post2"><span class="tag">#F160</span> Métodos HTTP</label></li>
-      <li><input type="checkbox" id="post3"><label for="post3"><span class="tag">#F161</span> Status codes</label></li>
-      <li><input type="checkbox" id="post4"><label for="post4"><span class="tag">#F162</span> JSON</label></li>
-      <li><input type="checkbox" id="post5"><label for="post5"><span class="tag">#F163</span> Postman — Introdução</label></li>
-      <li><input type="checkbox" id="post6"><label for="post6"><span class="tag">#F164</span> Primeira requisição</label></li>
-      <li><input type="checkbox" id="post7"><label for="post7"><span class="tag">#F165</span> GET</label></li>
-      <li><input type="checkbox" id="post8"><label for="post8"><span class="tag">#F166</span> POST</label></li>
-      <li><input type="checkbox" id="post9"><label for="post9"><span class="tag">#F169</span> Validações de resposta</label></li>
-      <li><input type="checkbox" id="post10"><label for="post10"><span class="tag">#F172</span> Collections</label></li>
-    </ul>
-
-    <div class="entrega">
-      <strong>📦 Entrega esperada:</strong>
-      <ul>
-        <li>1 collection exportada (<code>postman_collection.json</code>)</li>
-        <li>5 requisições GET + 2 POST funcionando</li>
-        <li>Prints com status code visível</li>
-        <li>Tudo no repositório GitHub</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- SQL -->
-  <div class="tool-card">
-    <div class="tool-header">
-      <div class="tool-name"><span class="tool-icon">🗄️</span> SQL Server + SSMS</div>
-      <span class="tool-badge p1">Prioridade 1</span>
-    </div>
-    <div class="tool-purpose">Validar dados no banco, conferir se a aplicação gravou certo</div>
-
-    <div class="tool-where"><strong>Onde aprender:</strong> SQL Impressionador — Módulos 4 a 15</div>
-
-    <span class="aulas-label">📚 Aulas essenciais</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="sql1"><label for="sql1"><span class="tag">#F021–#F035</span> Introdução + instalação</label></li>
-      <li><input type="checkbox" id="sql2"><label for="sql2"><span class="tag">#F036–#F062</span> SELECT, WHERE, ORDER BY</label></li>
-      <li><input type="checkbox" id="sql3"><label for="sql3"><span class="tag">#F063–#F074</span> COUNT, SUM, AVG</label></li>
-      <li><input type="checkbox" id="sql4"><label for="sql4"><span class="tag">#F075–#F092</span> GROUP BY e HAVING</label></li>
-      <li><input type="checkbox" id="sql5"><label for="sql5"><span class="tag">#F093–#F120</span> JOINs (INNER, LEFT, RIGHT)</label></li>
-      <li><input type="checkbox" id="sql6"><label for="sql6"><span class="tag">#F121–#F132</span> Group By + Joins</label></li>
-      <li><input type="checkbox" id="sql7"><label for="sql7"><span class="tag">#F210–#F230</span> CRUD (INSERT, UPDATE, DELETE)</label></li>
-      <li><input type="checkbox" id="sql8"><label for="sql8"><span class="tag">#F231–#F258</span> Subqueries e CTE's</label></li>
-    </ul>
-
-    <div class="entrega">
-      <strong>📦 Entrega esperada:</strong>
-      <ul>
-        <li>Arquivo <code>queries.sql</code> com 20 queries comentadas</li>
-        <li>Prints dos resultados no SSMS</li>
-        <li>1 query de validação (ex.: conferir se um pedido foi gravado)</li>
-        <li>Tudo no repositório GitHub</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- GIT -->
-  <div class="tool-card">
-    <div class="tool-header">
-      <div class="tool-name"><span class="tool-icon">🌿</span> Git + GitHub</div>
-      <span class="tool-badge p1">Prioridade 1</span>
-    </div>
-    <div class="tool-purpose">Versionar seu portfólio, subir casos de teste e queries</div>
-
-    <div class="tool-where"><strong>Onde aprender:</strong> EBAC — Módulo 10 (<span class="tag">#F058–#F063</span>)</div>
-
-    <span class="aulas-label">📚 Aulas essenciais</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="git1"><label for="git1"><span class="tag">#F058</span> Introdução</label></li>
-      <li><input type="checkbox" id="git2"><label for="git2"><span class="tag">#F059</span> Instalação e configuração</label></li>
-      <li><input type="checkbox" id="git3"><label for="git3"><span class="tag">#F060</span> add, commit, push</label></li>
-      <li><input type="checkbox" id="git4"><label for="git4"><span class="tag">#F061</span> Branches</label></li>
-      <li><input type="checkbox" id="git5"><label for="git5"><span class="tag">#F062</span> Merge e Pull Request</label></li>
-      <li><input type="checkbox" id="git6"><label for="git6"><span class="tag">#F063</span> GitHub e portfólio</label></li>
-    </ul>
-
-    <div class="entrega">
-      <strong>📦 Entrega esperada:</strong>
-      <ul>
-        <li>Repositório <code>qa-junior-portfolio</code> público</li>
-        <li>README explicando cada pasta</li>
-        <li>1 branch + 1 Pull Request</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- JIRA -->
-  <div class="tool-card">
-    <div class="tool-header">
-      <div class="tool-name"><span class="tool-icon">📋</span> Jira</div>
-      <span class="tool-badge p1">Prioridade 1</span>
-    </div>
-    <div class="tool-purpose">Rastrear bugs, gerenciar tarefas, participar de sprints</div>
-
-    <div class="tool-where"><strong>Onde aprender:</strong> Não tem aula específica — crie conta gratuita e pratique</div>
-
-    <span class="aulas-label">📚 Aulas que ajudam indiretamente</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="jira1"><label for="jira1"><span class="tag">#F039–#F057</span> Contexto Ágil (Júlio)</label></li>
-      <li><input type="checkbox" id="jira2"><label for="jira2"><span class="tag">#F112–#F157</span> Identificando o que Testar (Júlio)</label></li>
-      <li><input type="checkbox" id="jira3"><label for="jira3"><span class="tag">#F244–#F257</span> Gerindo Inconsistências (Júlio)</label></li>
-    </ul>
-
-    <div class="entrega">
-      <strong>📦 Entrega esperada:</strong>
-      <ul>
-        <li>5 bugs cadastrados com passos de reprodução</li>
-        <li>Print do board com o fluxo</li>
-        <li>Print de severidade + prioridade</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- ==================== FERRAMENTAS P2 ==================== -->
-<div class="secao ferramenta-p2">
-  <div class="secao-header">
-    <span class="secao-icon">🟠</span>
-    <span class="secao-title">Ferramentas — Nível 2 (aprenda depois)</span>
-    <span class="secao-badge p2">Diferencial</span>
-  </div>
-  <p class="secao-desc">Só aprenda depois de dominar o Nível 1. São diferenciais, não obrigatórias para júnior.</p>
-
-  <!-- CYPRESS -->
-  <div class="tool-card">
-    <div class="tool-header">
-      <div class="tool-name"><span class="tool-icon">🌲</span> Cypress</div>
-      <span class="tool-badge p2">Prioridade 2</span>
-    </div>
-    <div class="tool-purpose">Automação web moderna, amigável para iniciantes</div>
-
-    <div class="tool-where"><strong>Onde aprender:</strong> EBAC — Módulos 11 e 12 (<span class="tag">#F064–#F074</span>)</div>
-
-    <span class="aulas-label">📚 Aulas essenciais</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="cy1"><label for="cy1"><span class="tag">#F064</span> Introdução</label></li>
-      <li><input type="checkbox" id="cy2"><label for="cy2"><span class="tag">#F065</span> Instalação</label></li>
-      <li><input type="checkbox" id="cy3"><label for="cy3"><span class="tag">#F066</span> Primeiro teste</label></li>
-      <li><input type="checkbox" id="cy4"><label for="cy4"><span class="tag">#F068</span> Asserções</label></li>
-      <li><input type="checkbox" id="cy5"><label for="cy5"><span class="tag">#F071</span> Page Objects</label></li>
-      <li><input type="checkbox" id="cy6"><label for="cy6"><span class="tag">#F074</span> Boas práticas</label></li>
-    </ul>
-
-    <div class="entrega">
-      <strong>📦 Entrega esperada:</strong>
-      <ul>
-        <li>Projeto com 3 testes (login, busca, cadastro)</li>
-        <li>Page Objects organizados</li>
-        <li>Print do relatório de execução</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- DOCKER -->
-  <div class="tool-card">
-    <div class="tool-header">
-      <div class="tool-name"><span class="tool-icon">🐳</span> Docker</div>
-      <span class="tool-badge p2">Prioridade 2</span>
-    </div>
-    <div class="tool-purpose">Criar ambientes de teste consistentes</div>
-
-    <div class="tool-where"><strong>Onde aprender:</strong> EBAC — Módulo 27 (<span class="tag">#F158–#F162</span>)</div>
-
-    <span class="aulas-label">📚 Aulas essenciais</span>
-    <ul class="aulas">
-      <li><input type="checkbox" id="dock1"><label for="dock1"><span class="tag">#F158</span> Introdução</label></li>
-      <li><input type="checkbox" id="dock2"><label for="dock2"><span class="tag">#F159</span> Instalação</label></li>
-      <li><input type="checkbox" id="dock3"><label for="dock3"><span class="tag">#F160</span> Containers e imagens</label></li>
-      <li><input type="checkbox" id="dock4"><label for="dock4"><span class="tag">#F161</span> Docker Compose</label></li>
-      <li><input type="checkbox" id="dock5"><label for="dock5"><span class="tag">#F162</span> Docker para testes</label></li>
-    </ul>
-
-    <div class="entrega">
-      <strong>📦 Entrega esperada:</strong>
-      <ul>
-        <li>Container de banco rodando</li>
-        <li>Conexão com SQL feita</li>
-        <li>Arquivo <code>docker-compose.yml</code> no GitHub</li>
-      </ul>
-    </div>
-  </div>
-</div>
+  </details>
+</section>
 
 <footer>
-  <p>💡 Conceitos com #Fxxx reais + ferramentas que você usa amanhã · Foque no Nível 1 primeiro</p>
+  Plano gerado a partir dos cursos: Júlio de Lima · Ebac · Gustavo Farias · Vinicius Pessoni · QA Ninja · SQL Impressionador<br>
+  Cada aula tem seu próprio checkbox · progresso salvo automaticamente neste navegador.
 </footer>
 
 <script>
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  const globalBar = document.getElementById('globalBar');
-  const globalPct = document.getElementById('globalPct');
-  const totalAulas = document.getElementById('totalAulas');
-  const totalFeitas = document.getElementById('totalFeitas');
+  const STORAGE_KEY = 'qa_plano_aula_v1';
+  const boxes = Array.from(document.querySelectorAll('input[type=checkbox][data-id]'));
 
-  totalAulas.textContent = checkboxes.length;
-
-  function updateProgress() {
-    const total = checkboxes.length;
-    const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
-    const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
-    globalBar.style.width = pct + '%';
-    globalPct.textContent = pct + '%';
-    totalFeitas.textContent = checked;
+  function load(){
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){}
+    boxes.forEach(cb => { if(saved[cb.dataset.id]) cb.checked = true; });
   }
-
-  checkboxes.forEach(cb => {
-    const saved = localStorage.getItem('qa_conceitos_tools_' + cb.id);
-    if (saved === 'true') cb.checked = true;
+  function save(){
+    const state = {};
+    boxes.forEach(cb => { state[cb.dataset.id] = cb.checked; });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+  function updateItem(cb){
+    const label = cb.closest('.lesson');
+    if(label) label.classList.toggle('done', cb.checked);
+  }
+  function updateCounts(){
+    const total = boxes.length;
+    const done = boxes.filter(cb => cb.checked).length;
+    document.getElementById('gcount').textContent = done + ' / ' + total;
+    document.getElementById('gbar').style.width = total ? (done/total*100) + '%' : '0%';
+    document.querySelectorAll('.week').forEach(w => {
+      const wb = Array.from(w.querySelectorAll('input[type=checkbox][data-id]'));
+      const wd = wb.filter(cb => cb.checked).length;
+      const el = w.querySelector('.wcount');
+      if(el) el.textContent = wd + '/' + wb.length;
+    });
+  }
+  function refresh(){
+    boxes.forEach(cb => updateItem(cb));
+    updateCounts();
+  }
+  boxes.forEach(cb => {
     cb.addEventListener('change', () => {
-      localStorage.setItem('qa_conceitos_tools_' + cb.id, cb.checked);
-      updateProgress();
+      updateItem(cb);
+      updateCounts();
+      save();
     });
   });
-
-  updateProgress();
+  function resetAll(){
+    if(!confirm('Resetar todo o progresso?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    boxes.forEach(cb => { cb.checked = false; });
+    refresh();
+  }
+  load();
+  refresh();
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const p = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    document.getElementById('prog').style.width = p + '%';
+  });
 </script>
-
 </body>
 </html>
