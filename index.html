@@ -3,673 +3,950 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plano Essencial QA — Checkbox por Aula</title>
+<title>Plano de Estudos – QA (todos os #F)</title>
 <style>
   :root{
-    --bg:#0f172a; --card:#1e293b; --card2:#273449; --txt:#e2e8f0; --muted:#94a3b8;
+    --bg:#0f172a; --card:#1e293b; --card2:#273449;
+    --txt:#e2e8f0; --muted:#94a3b8;
     --accent:#38bdf8; --green:#22c55e; --yellow:#eab308; --red:#ef4444; --purple:#a78bfa;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;padding:24px;padding-top:70px}
-  .progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--purple));width:0;z-index:99;transition:width .2s}
-  .topbar{position:fixed;top:0;left:0;right:0;background:#0b1220ee;backdrop-filter:blur(8px);border-bottom:1px solid #334155;padding:10px 24px;display:flex;align-items:center;gap:16px;z-index:98;flex-wrap:wrap}
-  .topbar .gtitle{font-weight:700;font-size:.9rem;color:var(--accent)}
-  .topbar .gcount{font-size:.85rem;color:var(--muted)}
-  .topbar .gbar{flex:1;min-width:120px;height:8px;background:#273449;border-radius:999px;overflow:hidden}
-  .topbar .gbar span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--accent));width:0;transition:width .3s}
-  .topbar button{background:#ef444422;color:var(--red);border:1px solid #ef444455;padding:4px 12px;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600}
-  .topbar button:hover{background:#ef444433}
-  header{text-align:center;margin-bottom:24px}
-  h1{font-size:1.9rem;background:linear-gradient(90deg,var(--accent),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .sub{color:var(--muted);font-size:.95rem;margin-top:6px}
-  .legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:16px 0}
-  .badge{font-size:.75rem;padding:3px 10px;border-radius:999px;font-weight:600}
-  .b-core{background:#22c55e22;color:var(--green);border:1px solid #22c55e55}
-  .b-tool{background:#38bdf822;color:var(--accent);border:1px solid #38bdf855}
-  .b-extra{background:#eab30822;color:var(--yellow);border:1px solid #eab30855}
-  .week{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:18px;border:1px solid #334155}
-  .week h2{font-size:1.1rem;color:var(--accent);margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-  .week h2 .wcount{font-size:.8rem;color:var(--muted);font-weight:400}
-  .week .goal{font-size:.85rem;color:var(--muted);margin-bottom:12px;font-style:italic}
-  .group{background:var(--card2);border-radius:10px;padding:10px 14px;margin-bottom:10px;border-left:3px solid var(--accent)}
-  .group.core{border-left-color:var(--green)}
-  .group.tool{border-left-color:var(--accent)}
-  .group.extra{border-left-color:var(--yellow)}
-  .group .ghead{font-size:.8rem;color:var(--muted);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
-  .group .ghead .src{color:var(--accent);font-weight:400;text-transform:none;letter-spacing:0;font-size:.75rem;margin-left:6px}
-  .lesson{display:flex;align-items:center;gap:10px;padding:5px 8px;border-radius:6px;transition:background .15s}
-  .lesson:hover{background:#1a2536}
-  .lesson.done{opacity:.55}
-  .lesson.done .lname{text-decoration:line-through;text-decoration-color:var(--green)}
-  .lesson input[type=checkbox]{width:18px;height:18px;cursor:pointer;accent-color:var(--green);flex-shrink:0}
-  .lesson .fid{font-family:monospace;font-size:.78rem;color:var(--accent);min-width:48px}
-  .lesson .lname{font-size:.88rem}
-  .lesson .sec{font-size:.65rem;background:#ef444422;color:#f87171;border:1px solid #ef444455;padding:1px 6px;border-radius:999px;margin-left:6px}
-  .tip{background:#1e3a5f;border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:.85rem;margin:12px 0}
-  .tip strong{color:var(--accent)}
-  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
-  details{background:var(--card2);border-radius:10px;padding:10px 14px;margin-bottom:10px}
-  summary{cursor:pointer;font-weight:600;list-style:none;font-size:.9rem}
-  summary::-webkit-details-marker{display:none}
-  summary::before{content:"▸ ";color:var(--accent)}
-  details[open] summary::before{content:"▾ "}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(160deg,#0f172a,#111827);color:var(--txt);line-height:1.5;padding:2rem 1rem}
+  .wrap{max-width:1100px;margin:0 auto}
+  header{text-align:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:2px solid var(--card2)}
+  header h1{font-size:2rem;color:var(--accent);margin-bottom:.4rem}
+  header p{color:var(--muted);font-size:.95rem}
+  .badge{display:inline-block;background:var(--card2);color:var(--accent);padding:.25rem .75rem;border-radius:999px;font-size:.75rem;margin:.5rem .25rem 0;font-weight:600}
+
+  .progress-box{background:var(--card);border:1px solid var(--card2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:2rem}
+  .progress-box .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+  .progress-box strong{color:#fff;font-size:.95rem}
+  .progress-box .pct{color:var(--accent);font-weight:800;font-size:1.1rem}
+  .bar{height:12px;background:var(--card2);border-radius:999px;overflow:hidden}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#38bdf8,#22c55e);transition:width .3s ease}
+
+  section{margin-bottom:2.5rem}
+  h2{font-size:1.3rem;margin-bottom:1rem;padding-left:.75rem;border-left:4px solid var(--accent);display:flex;align-items:center;gap:.5rem}
+  h2 .dot{width:12px;height:12px;border-radius:50%}
+  .prio-max h2{border-color:var(--red)} .prio-max .dot{background:var(--red)}
+  .prio-high h2{border-color:var(--yellow)} .prio-high .dot{background:var(--yellow)}
+  .prio-mid h2{border-color:var(--green)} .prio-mid .dot{background:var(--green)}
+  .prio-gap h2{border-color:var(--purple)} .prio-gap .dot{background:var(--purple)}
+
+  .card{background:var(--card);border:1px solid var(--card2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
+  .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;flex-wrap:wrap}
+  .card h3{font-size:1.05rem;margin-bottom:.5rem;color:#fff}
+  .card .src{font-size:.75rem;color:var(--muted);margin-bottom:.6rem;font-style:italic}
+  .course-count{font-size:.78rem;font-weight:700;color:var(--accent);white-space:nowrap}
+
+  .module{margin-top:.75rem;border-top:1px solid var(--card2);padding-top:.5rem}
+  .module:first-of-type{border-top:none;padding-top:0}
+  .module-title{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:.4rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
+  .module-title .mcount{font-size:.72rem;color:var(--muted);font-weight:600}
+
+  ul.f-list{list-style:none;padding-left:0;display:flex;flex-wrap:wrap;gap:.4rem}
+  ul.f-list li{display:flex;align-items:center;gap:.35rem;background:var(--card2);border-radius:8px;padding:.25rem .5rem;font-size:.78rem;transition:.15s}
+  ul.f-list li:hover{background:#334155}
+  ul.f-list li.done{opacity:.55}
+  ul.f-list li.done .code{color:var(--green);text-decoration:line-through}
+
+  .fchk{appearance:none;-webkit-appearance:none;width:14px;height:14px;flex-shrink:0;border:2px solid var(--accent);border-radius:4px;background:transparent;cursor:pointer;position:relative;transition:.15s}
+  .fchk:hover{border-color:#fff}
+  .fchk:checked{background:var(--green);border-color:var(--green)}
+  .fchk:checked::after{content:"✓";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#0f172a;font-weight:900;font-size:10px}
+
+  .code{font-family:'Courier New',monospace;font-size:.72rem;font-weight:700;color:var(--accent)}
+
+  .alert{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;padding:1rem 1.25rem;font-size:.9rem;color:#bae6fd;margin-bottom:1.5rem}
+  .alert strong{color:#fff}
+  .btn-reset{background:var(--card2);color:var(--txt);border:1px solid rgba(148,163,184,.3);padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600;transition:.2s}
+  .btn-reset:hover{border-color:var(--red);color:#fca5a5}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+  .gap-card{background:var(--card);border:1px solid var(--card2);border-left:4px solid var(--purple);border-radius:10px;padding:1rem}
+  .gap-card h4{color:#c4b5fd;font-size:.95rem;margin-bottom:.35rem}
+  .gap-card p{font-size:.85rem;color:var(--muted)}
+
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--card2)}
+  @media(max-width:600px){body{padding:1rem .5rem}header h1{font-size:1.4rem}ul.f-list li{font-size:.72rem}}
 </style>
 </head>
 <body>
-<div class="progress" id="prog"></div>
+<div class="wrap">
+  <header>
+    <h1>🎯 Plano de Estudos – QA Mobile + Web</h1>
+    <p>Marque cada aula (#F) individualmente. Progresso salvo automaticamente.</p>
+    <div><span class="badge">📱 Mobile</span><span class="badge">🌐 Web</span><span class="badge">🔌 API</span><span class="badge">🤖 Automação</span><span class="badge">⚙️ CI/CD</span></div>
+  </header>
 
-<div class="topbar">
-  <span class="gtitle">Progresso</span>
-  <span class="gcount" id="gcount">0 / 0</span>
-  <div class="gbar"><span id="gbar"></span></div>
-  <button onclick="resetAll()">Resetar</button>
+  <div class="progress-box">
+    <div class="top"><strong>📊 Progresso geral</strong><span class="pct" id="pctGlobal">0%</span></div>
+    <div class="bar"><i id="barGlobal"></i></div>
+    <div class="top" style="margin-top:.5rem;margin-bottom:0">
+      <span style="font-size:.8rem;color:var(--muted)" id="countGlobal">0 de 0 aulas</span>
+      <button class="btn-reset" id="btnReset">Limpar tudo</button>
+    </div>
+  </div>
+
+  <div class="alert"><strong>Dica:</strong> cada chip é um <code>#F</code> individual. Clique para marcar como concluído.</div>
+
+  <!-- ===================== PRIORIDADE MAXIMA ===================== -->
+  <section class="prio-max">
+    <h2><span class="dot"></span>🔴 Prioridade Máxima</h2>
+
+    <!-- JULIO DE LIMA -->
+    <div class="card" data-course="julio">
+      <div class="card-head">
+        <h3>Programa de Testes e Qualidade de Software</h3>
+        <span class="course-count" data-count="julio">0/0</span>
+      </div>
+      <div class="src">Júlio de Lima – curso mais alinhado à vaga</div>
+
+      <div class="module" data-module="julio-02">
+        <div class="module-title">02 – A Mentalidade do QA <span class="mcount">0/15</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F007"><span class="code">#F007</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F008"><span class="code">#F008</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F009"><span class="code">#F009</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F010"><span class="code">#F010</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F011"><span class="code">#F011</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F012"><span class="code">#F012</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F013"><span class="code">#F013</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F014"><span class="code">#F014</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F015"><span class="code">#F015</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F016"><span class="code">#F016</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F017"><span class="code">#F017</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F018"><span class="code">#F018</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F019"><span class="code">#F019</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F020"><span class="code">#F020</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F021"><span class="code">#F021</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-03">
+        <div class="module-title">03 – Testes no Modelo Cascata <span class="mcount">0/17</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F022"><span class="code">#F022</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F023"><span class="code">#F023</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F024"><span class="code">#F024</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F025"><span class="code">#F025</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F026"><span class="code">#F026</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F027"><span class="code">#F027</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F028"><span class="code">#F028</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F029"><span class="code">#F029</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F030"><span class="code">#F030</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F031"><span class="code">#F031</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F032"><span class="code">#F032</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F033"><span class="code">#F033</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F034"><span class="code">#F034</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F035"><span class="code">#F035</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F036"><span class="code">#F036</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F037"><span class="code">#F037</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F038"><span class="code">#F038</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-04">
+        <div class="module-title">04 – Testes em Contexto Ágil <span class="mcount">0/19</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F039"><span class="code">#F039</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F040"><span class="code">#F040</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F041"><span class="code">#F041</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F042"><span class="code">#F042</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F043"><span class="code">#F043</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F044"><span class="code">#F044</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F045"><span class="code">#F045</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F046"><span class="code">#F046</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F047"><span class="code">#F047</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F048"><span class="code">#F048</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F049"><span class="code">#F049</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F050"><span class="code">#F050</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F051"><span class="code">#F051</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F052"><span class="code">#F052</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F053"><span class="code">#F053</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F054"><span class="code">#F054</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F055"><span class="code">#F055</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F056"><span class="code">#F056</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F057"><span class="code">#F057</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-05">
+        <div class="module-title">05 – Arquitetura e Engenharia para Testadores <span class="mcount">0/13</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F058"><span class="code">#F058</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F059"><span class="code">#F059</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F060"><span class="code">#F060</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F061"><span class="code">#F061</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F062"><span class="code">#F062</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F063"><span class="code">#F063</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F064"><span class="code">#F064</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F065"><span class="code">#F065</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F066"><span class="code">#F066</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F067"><span class="code">#F067</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F068"><span class="code">#F068</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F069"><span class="code">#F069</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F070"><span class="code">#F070</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-06">
+        <div class="module-title">06 – Nivelamento Java e SQL <span class="mcount">0/31</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F071"><span class="code">#F071</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F072"><span class="code">#F072</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F073"><span class="code">#F073</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F074"><span class="code">#F074</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F075"><span class="code">#F075</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F076"><span class="code">#F076</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F077"><span class="code">#F077</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F078"><span class="code">#F078</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F079"><span class="code">#F079</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F080"><span class="code">#F080</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F081"><span class="code">#F081</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F082"><span class="code">#F082</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F083"><span class="code">#F083</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F084"><span class="code">#F084</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F085"><span class="code">#F085</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F086"><span class="code">#F086</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F087"><span class="code">#F087</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F088"><span class="code">#F088</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F089"><span class="code">#F089</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F090"><span class="code">#F090</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F091"><span class="code">#F091</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F092"><span class="code">#F092</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F093"><span class="code">#F093</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F094"><span class="code">#F094</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F095"><span class="code">#F095</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F096"><span class="code">#F096</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F097"><span class="code">#F097</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F098"><span class="code">#F098</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F099"><span class="code">#F099</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F100"><span class="code">#F100</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F101"><span class="code">#F101</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-07">
+        <div class="module-title">07 – Técnicas de Revisão <span class="mcount">0/10</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F102"><span class="code">#F102</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F103"><span class="code">#F103</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F104"><span class="code">#F104</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F105"><span class="code">#F105</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F106"><span class="code">#F106</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F107"><span class="code">#F107</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F108"><span class="code">#F108</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F109"><span class="code">#F109</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F110"><span class="code">#F110</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F111"><span class="code">#F111</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-08">
+        <div class="module-title">08 – Identificando o que Testar <span class="mcount">0/46</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F112"><span class="code">#F112</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F113"><span class="code">#F113</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F114"><span class="code">#F114</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F115"><span class="code">#F115</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F116"><span class="code">#F116</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F117"><span class="code">#F117</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F118"><span class="code">#F118</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F119"><span class="code">#F119</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F120"><span class="code">#F120</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F121"><span class="code">#F121</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F122"><span class="code">#F122</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F123"><span class="code">#F123</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F124"><span class="code">#F124</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F125"><span class="code">#F125</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F126"><span class="code">#F126</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F127"><span class="code">#F127</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F128"><span class="code">#F128</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F129"><span class="code">#F129</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F130"><span class="code">#F130</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F131"><span class="code">#F131</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F132"><span class="code">#F132</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F133"><span class="code">#F133</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F134"><span class="code">#F134</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F135"><span class="code">#F135</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F136"><span class="code">#F136</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F137"><span class="code">#F137</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F138"><span class="code">#F138</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F139"><span class="code">#F139</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F140"><span class="code">#F140</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F141"><span class="code">#F141</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F142"><span class="code">#F142</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F143"><span class="code">#F143</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F144"><span class="code">#F144</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F145"><span class="code">#F145</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F146"><span class="code">#F146</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F147"><span class="code">#F147</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F148"><span class="code">#F148</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F149"><span class="code">#F149</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F150"><span class="code">#F150</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F151"><span class="code">#F151</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F152"><span class="code">#F152</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F153"><span class="code">#F153</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F154"><span class="code">#F154</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F155"><span class="code">#F155</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F156"><span class="code">#F156</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F157"><span class="code">#F157</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-09">
+        <div class="module-title">09 – Testes de API REST <span class="mcount">0/24</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F158"><span class="code">#F158</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F159"><span class="code">#F159</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F160"><span class="code">#F160</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F161"><span class="code">#F161</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F162"><span class="code">#F162</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F163"><span class="code">#F163</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F164"><span class="code">#F164</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F165"><span class="code">#F165</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F166"><span class="code">#F166</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F167"><span class="code">#F167</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F168"><span class="code">#F168</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F169"><span class="code">#F169</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F170"><span class="code">#F170</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F171"><span class="code">#F171</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F172"><span class="code">#F172</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F173"><span class="code">#F173</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F174"><span class="code">#F174</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F175"><span class="code">#F175</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F176"><span class="code">#F176</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F177"><span class="code">#F177</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F178"><span class="code">#F178</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F179"><span class="code">#F179</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F180"><span class="code">#F180</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F181"><span class="code">#F181</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-10">
+        <div class="module-title">10 – Testes Web <span class="mcount">0/23</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F182"><span class="code">#F182</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F183"><span class="code">#F183</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F184"><span class="code">#F184</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F185"><span class="code">#F185</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F186"><span class="code">#F186</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F187"><span class="code">#F187</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F188"><span class="code">#F188</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F189"><span class="code">#F189</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F190"><span class="code">#F190</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F191"><span class="code">#F191</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F192"><span class="code">#F192</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F193"><span class="code">#F193</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F194"><span class="code">#F194</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F195"><span class="code">#F195</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F196"><span class="code">#F196</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F197"><span class="code">#F197</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F198"><span class="code">#F198</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F199"><span class="code">#F199</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F200"><span class="code">#F200</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F201"><span class="code">#F201</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F202"><span class="code">#F202</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F203"><span class="code">#F203</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F204"><span class="code">#F204</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-11">
+        <div class="module-title">11 – Testes Mobile com Android <span class="mcount">0/21</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F205"><span class="code">#F205</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F206"><span class="code">#F206</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F207"><span class="code">#F207</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F208"><span class="code">#F208</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F209"><span class="code">#F209</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F210"><span class="code">#F210</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F211"><span class="code">#F211</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F212"><span class="code">#F212</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F213"><span class="code">#F213</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F214"><span class="code">#F214</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F215"><span class="code">#F215</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F216"><span class="code">#F216</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F217"><span class="code">#F217</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F218"><span class="code">#F218</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F219"><span class="code">#F219</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F220"><span class="code">#F220</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F221"><span class="code">#F221</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F222"><span class="code">#F222</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F223"><span class="code">#F223</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F224"><span class="code">#F224</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F225"><span class="code">#F225</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-12">
+        <div class="module-title">12 – Testes Desktop <span class="mcount">0/18</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F226"><span class="code">#F226</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F227"><span class="code">#F227</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F228"><span class="code">#F228</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F229"><span class="code">#F229</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F230"><span class="code">#F230</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F231"><span class="code">#F231</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F232"><span class="code">#F232</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F233"><span class="code">#F233</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F234"><span class="code">#F234</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F235"><span class="code">#F235</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F236"><span class="code">#F236</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F237"><span class="code">#F237</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F238"><span class="code">#F238</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F239"><span class="code">#F239</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F240"><span class="code">#F240</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F241"><span class="code">#F241</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F242"><span class="code">#F242</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F243"><span class="code">#F243</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-13">
+        <div class="module-title">13 – Gerindo Inconsistências <span class="mcount">0/14</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F244"><span class="code">#F244</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F245"><span class="code">#F245</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F246"><span class="code">#F246</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F247"><span class="code">#F247</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F248"><span class="code">#F248</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F249"><span class="code">#F249</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F250"><span class="code">#F250</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F251"><span class="code">#F251</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F252"><span class="code">#F252</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F253"><span class="code">#F253</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F254"><span class="code">#F254</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F255"><span class="code">#F255</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F256"><span class="code">#F256</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F257"><span class="code">#F257</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-14">
+        <div class="module-title">14 – Fundamentos da Automação <span class="mcount">0/13</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F258"><span class="code">#F258</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F259"><span class="code">#F259</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F260"><span class="code">#F260</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F261"><span class="code">#F261</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F262"><span class="code">#F262</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F263"><span class="code">#F263</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F264"><span class="code">#F264</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F265"><span class="code">#F265</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F266"><span class="code">#F266</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F267"><span class="code">#F267</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F268"><span class="code">#F268</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F269"><span class="code">#F269</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F270"><span class="code">#F270</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-15">
+        <div class="module-title">15 – Testes Não Funcionais <span class="mcount">0/14</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F271"><span class="code">#F271</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F272"><span class="code">#F272</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F273"><span class="code">#F273</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F274"><span class="code">#F274</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F275"><span class="code">#F275</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F276"><span class="code">#F276</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F277"><span class="code">#F277</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F278"><span class="code">#F278</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F279"><span class="code">#F279</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F280"><span class="code">#F280</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F281"><span class="code">#F281</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F282"><span class="code">#F282</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F283"><span class="code">#F283</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F284"><span class="code">#F284</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-16">
+        <div class="module-title">16 – Testes de Performance (Servidor Web) <span class="mcount">0/15</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F285"><span class="code">#F285</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F286"><span class="code">#F286</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F287"><span class="code">#F287</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F288"><span class="code">#F288</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F289"><span class="code">#F289</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F290"><span class="code">#F290</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F291"><span class="code">#F291</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F292"><span class="code">#F292</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F293"><span class="code">#F293</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F294"><span class="code">#F294</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F295"><span class="code">#F295</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F296"><span class="code">#F296</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F297"><span class="code">#F297</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F298"><span class="code">#F298</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F299"><span class="code">#F299</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-17">
+        <div class="module-title">17 – Encerramento <span class="mcount">0/1</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F300"><span class="code">#F300</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-18">
+        <div class="module-title">18 – Bônus: Entrevistas <span class="mcount">0/14</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F301"><span class="code">#F301</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F302"><span class="code">#F302</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F303"><span class="code">#F303</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F304"><span class="code">#F304</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F305"><span class="code">#F305</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F306"><span class="code">#F306</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F307"><span class="code">#F307</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F308"><span class="code">#F308</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F309"><span class="code">#F309</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F310"><span class="code">#F310</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F311"><span class="code">#F311</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F312"><span class="code">#F312</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F313"><span class="code">#F313</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F314"><span class="code">#F314</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-19">
+        <div class="module-title">19 – Bônus: LinkedIn <span class="mcount">0/13</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F315"><span class="code">#F315</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F316"><span class="code">#F316</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F317"><span class="code">#F317</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F318"><span class="code">#F318</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F319"><span class="code">#F319</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F320"><span class="code">#F320</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F321"><span class="code">#F321</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F322"><span class="code">#F322</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F323"><span class="code">#F323</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F324"><span class="code">#F324</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F325"><span class="code">#F325</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F326"><span class="code">#F326</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F327"><span class="code">#F327</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-20">
+        <div class="module-title">20 – Bônus: Git e GitHub <span class="mcount">0/8</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F328"><span class="code">#F328</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F329"><span class="code">#F329</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F330"><span class="code">#F330</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F331"><span class="code">#F331</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F332"><span class="code">#F332</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F333"><span class="code">#F333</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F334"><span class="code">#F334</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F335"><span class="code">#F335</span></li>
+        </ul>
+      </div>
+
+      <div class="module" data-module="julio-21">
+        <div class="module-title">21 – Bônus: Lives <span class="mcount">0/23</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="julio-F336"><span class="code">#F336</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F337"><span class="code">#F337</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F338"><span class="code">#F338</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F339"><span class="code">#F339</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F340"><span class="code">#F340</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F341"><span class="code">#F341</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F342"><span class="code">#F342</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F343"><span class="code">#F343</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F344"><span class="code">#F344</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F345"><span class="code">#F345</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F346"><span class="code">#F346</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F347"><span class="code">#F347</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F348"><span class="code">#F348</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F349"><span class="code">#F349</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F350"><span class="code">#F350</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F351"><span class="code">#F351</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F352"><span class="code">#F352</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F353"><span class="code">#F353</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F354"><span class="code">#F354</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F355"><span class="code">#F355</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F356"><span class="code">#F356</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F357"><span class="code">#F357</span></li>
+          <li><input type="checkbox" class="fchk" data-f="julio-F358"><span class="code">#F358</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TESTER GLOBAL -->
+    <div class="card" data-course="tester">
+      <div class="card-head">
+        <h3>Comunidade Tester Global 2.0</h3>
+        <span class="course-count" data-count="tester">0/0</span>
+      </div>
+      <div class="src">Vinicius Pessoni</div>
+
+      <div class="module" data-module="tester-01"><div class="module-title">1 – Comece por aqui <span class="mcount">0/1</span></div>
+        <ul class="f-list"><li><input type="checkbox" class="fchk" data-f="tester-F001"><span class="code">#F001</span></li></ul></div>
+      <div class="module" data-module="tester-02"><div class="module-title">2 – Instalação Ferramentas <span class="mcount">0/3</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F002"><span class="code">#F002</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F003"><span class="code">#F003</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F004"><span class="code">#F004</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-03"><div class="module-title">3 – O que é Teste <span class="mcount">0/2</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F005"><span class="code">#F005</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F006"><span class="code">#F006</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-04"><div class="module-title">4 – Qualidade e Engenharia <span class="mcount">0/4</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F007"><span class="code">#F007</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F008"><span class="code">#F008</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F009"><span class="code">#F009</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F010"><span class="code">#F010</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-05"><div class="module-title">5 – O que testar, Quando e Como <span class="mcount">0/5</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F011"><span class="code">#F011</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F012"><span class="code">#F012</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F013"><span class="code">#F013</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F014"><span class="code">#F014</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F015"><span class="code">#F015</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-06"><div class="module-title">6 – Automação de API <span class="mcount">0/6</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F016"><span class="code">#F016</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F017"><span class="code">#F017</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F018"><span class="code">#F018</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F019"><span class="code">#F019</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F020"><span class="code">#F020</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F021"><span class="code">#F021</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-07"><div class="module-title">7 – Automação de Interface <span class="mcount">0/2</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F022"><span class="code">#F022</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F023"><span class="code">#F023</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-08"><div class="module-title">8 – Currículo e Entrevistas <span class="mcount">0/4</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F024"><span class="code">#F024</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F025"><span class="code">#F025</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F026"><span class="code">#F026</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F027"><span class="code">#F027</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-09"><div class="module-title">9 – Liderança em Software <span class="mcount">0/8</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F028"><span class="code">#F028</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F029"><span class="code">#F029</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F030"><span class="code">#F030</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F031"><span class="code">#F031</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F032"><span class="code">#F032</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F033"><span class="code">#F033</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F034"><span class="code">#F034</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F035"><span class="code">#F035</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-10"><div class="module-title">10 – Métricas em Software <span class="mcount">0/6</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F036"><span class="code">#F036</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F037"><span class="code">#F037</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F038"><span class="code">#F038</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F039"><span class="code">#F039</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F040"><span class="code">#F040</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F041"><span class="code">#F041</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-11"><div class="module-title">Bônus – CTFL <span class="mcount">0/52</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F042"><span class="code">#F042</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F043"><span class="code">#F043</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F044"><span class="code">#F044</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F045"><span class="code">#F045</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F046"><span class="code">#F046</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F047"><span class="code">#F047</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F048"><span class="code">#F048</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F049"><span class="code">#F049</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F050"><span class="code">#F050</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F051"><span class="code">#F051</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F052"><span class="code">#F052</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F053"><span class="code">#F053</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F054"><span class="code">#F054</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F055"><span class="code">#F055</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F056"><span class="code">#F056</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F057"><span class="code">#F057</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F058"><span class="code">#F058</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F059"><span class="code">#F059</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F060"><span class="code">#F060</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F061"><span class="code">#F061</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F062"><span class="code">#F062</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F063"><span class="code">#F063</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F064"><span class="code">#F064</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F065"><span class="code">#F065</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F066"><span class="code">#F066</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F067"><span class="code">#F067</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F068"><span class="code">#F068</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F069"><span class="code">#F069</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F070"><span class="code">#F070</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F071"><span class="code">#F071</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F072"><span class="code">#F072</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F073"><span class="code">#F073</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F074"><span class="code">#F074</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F075"><span class="code">#F075</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F076"><span class="code">#F076</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F077"><span class="code">#F077</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F078"><span class="code">#F078</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F079"><span class="code">#F079</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F080"><span class="code">#F080</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F081"><span class="code">#F081</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F082"><span class="code">#F082</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F083"><span class="code">#F083</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F084"><span class="code">#F084</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F085"><span class="code">#F085</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F086"><span class="code">#F086</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F087"><span class="code">#F087</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F088"><span class="code">#F088</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F089"><span class="code">#F089</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F090"><span class="code">#F090</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F091"><span class="code">#F091</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F092"><span class="code">#F092</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F093"><span class="code">#F093</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-12"><div class="module-title">Bônus – Lógica e Java <span class="mcount">0/2</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F094"><span class="code">#F094</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F095"><span class="code">#F095</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-13"><div class="module-title">Bônus – Appium e Java <span class="mcount">0/22</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F096"><span class="code">#F096</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F097"><span class="code">#F097</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F098"><span class="code">#F098</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F099"><span class="code">#F099</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F100"><span class="code">#F100</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F101"><span class="code">#F101</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F102"><span class="code">#F102</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F103"><span class="code">#F103</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F104"><span class="code">#F104</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F105"><span class="code">#F105</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F106"><span class="code">#F106</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F107"><span class="code">#F107</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F108"><span class="code">#F108</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F109"><span class="code">#F109</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F110"><span class="code">#F110</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F111"><span class="code">#F111</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F112"><span class="code">#F112</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F113"><span class="code">#F113</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F114"><span class="code">#F114</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F115"><span class="code">#F115</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F116"><span class="code">#F116</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F117"><span class="code">#F117</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-14"><div class="module-title">Bônus – Git pra testers <span class="mcount">0/8</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F118"><span class="code">#F118</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F119"><span class="code">#F119</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F120"><span class="code">#F120</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F121"><span class="code">#F121</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F122"><span class="code">#F122</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F123"><span class="code">#F123</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F124"><span class="code">#F124</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F125"><span class="code">#F125</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-15"><div class="module-title">Extras e Convidados <span class="mcount">0/2</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F126"><span class="code">#F126</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F127"><span class="code">#F127</span></li>
+        </ul></div>
+      <div class="module" data-module="tester-16"><div class="module-title">Mentorias Passadas (Lives) <span class="mcount">0/21</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="tester-F128"><span class="code">#F128</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F129"><span class="code">#F129</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F130"><span class="code">#F130</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F131"><span class="code">#F131</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F132"><span class="code">#F132</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F133"><span class="code">#F133</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F134"><span class="code">#F134</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F135"><span class="code">#F135</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F136"><span class="code">#F136</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F137"><span class="code">#F137</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F138"><span class="code">#F138</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F139"><span class="code">#F139</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F140"><span class="code">#F140</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F141"><span class="code">#F141</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F142"><span class="code">#F142</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F143"><span class="code">#F143</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F144"><span class="code">#F144</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F145"><span class="code">#F145</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F146"><span class="code">#F146</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F147"><span class="code">#F147</span></li>
+          <li><input type="checkbox" class="fchk" data-f="tester-F148"><span class="code">#F148</span></li>
+        </ul></div>
+    </div>
+  </section>
+
+  <!-- ===================== PRIORIDADE ALTA ===================== -->
+  <section class="prio-high">
+    <h2><span class="dot"></span>🟡 Prioridade Alta</h2>
+
+    <div class="card" data-course="zumbis">
+      <div class="card-head">
+        <h3>Automação para Zumbis</h3>
+        <span class="course-count" data-count="zumbis">0/0</span>
+      </div>
+      <div class="src">QA Ninja – Nightwatch.js</div>
+
+      <div class="module" data-module="zumbis-02"><div class="module-title">Contaminando o Ambiente <span class="mcount">0/4</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F01"><span class="code">#F01</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F02"><span class="code">#F02</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F03"><span class="code">#F03</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F04"><span class="code">#F04</span></li>
+        </ul></div>
+      <div class="module" data-module="zumbis-03"><div class="module-title">NoFear The Walking Test <span class="mcount">0/9</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F05"><span class="code">#F05</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F06"><span class="code">#F06</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F07"><span class="code">#F07</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F08"><span class="code">#F08</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F09"><span class="code">#F09</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F10"><span class="code">#F10</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F11"><span class="code">#F11</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F12"><span class="code">#F12</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F13"><span class="code">#F13</span></li>
+        </ul></div>
+      <div class="module" data-module="zumbis-04"><div class="module-title">Infecção de pacotes NPM <span class="mcount">0/2</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F14"><span class="code">#F14</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F15"><span class="code">#F15</span></li>
+        </ul></div>
+      <div class="module" data-module="zumbis-06"><div class="module-title">Atacando Automação Web <span class="mcount">0/28</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F16"><span class="code">#F16</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F17"><span class="code">#F17</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F18"><span class="code">#F18</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F19"><span class="code">#F19</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F20"><span class="code">#F20</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F21"><span class="code">#F21</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F22"><span class="code">#F22</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F23"><span class="code">#F23</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F24"><span class="code">#F24</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F25"><span class="code">#F25</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F26"><span class="code">#F26</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F27"><span class="code">#F27</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F28"><span class="code">#F28</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F29"><span class="code">#F29</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F30"><span class="code">#F30</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F31"><span class="code">#F31</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F32"><span class="code">#F32</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F33"><span class="code">#F33</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F34"><span class="code">#F34</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F35"><span class="code">#F35</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F36"><span class="code">#F36</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F37"><span class="code">#F37</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F38"><span class="code">#F38</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F39"><span class="code">#F39</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F40"><span class="code">#F40</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F41"><span class="code">#F41</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F42"><span class="code">#F42</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F43"><span class="code">#F43</span></li>
+        </ul></div>
+      <div class="module" data-module="zumbis-08"><div class="module-title">Jenkins / Pipelines <span class="mcount">0/12</span></div>
+        <ul class="f-list">
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F44"><span class="code">#F44</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F45"><span class="code">#F45</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F46"><span class="code">#F46</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F47"><span class="code">#F47</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F48"><span class="code">#F48</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F49"><span class="code">#F49</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F50"><span class="code">#F50</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F51"><span class="code">#F51</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F52"><span class="code">#F52</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F53"><span class="code">#F53</span></li>
+          <li><input type="checkbox" class="fchk" data-f="zumbis-F54"><span class="code">#F54</span></li>
+        </ul></div>
+    </div>
+  </section>
+
+  <!-- ===================== ROADMAP ===================== -->
+  <section>
+    <h2><span class="dot" style="background:#38bdf8"></span>🗺️ Roteiro sugerido</h2>
+    <div style="background:var(--card);border:1px solid var(--card2);border-radius:12px;padding:1.25rem">
+      <p style="font-size:.9rem;color:var(--muted);margin-bottom:.75rem">Ordem recomendada de estudo para a vaga:</p>
+      <ol style="padding-left:1.25rem;font-size:.88rem;line-height:1.9">
+        <li><strong>Júlio:</strong> módulos 02, 04, 08 (fundamentos + ágil)</li>
+        <li><strong>Júlio:</strong> módulos 09, 10, 11 (API, Web, Mobile) ⭐</li>
+        <li><strong>Tester Global:</strong> módulo 6 + Bônus Appium ⭐</li>
+        <li><strong>Ebac:</strong> módulos 13–14 e 16–17</li>
+        <li><strong>Ebac:</strong> módulos 26 e 30 (CI/CD + Mobile CI)</li>
+        <li><strong>Júlio:</strong> módulo 14 + <strong>Ebac:</strong> Cypress 11–12</li>
+        <li><strong>Zumbis:</strong> módulo 8 (Jenkins/Pipelines)</li>
+        <li><strong>Júlio:</strong> módulo 18 (entrevistas) 🎯</li>
+        <li><strong>SQL básico</strong> (validar dados em APIs)</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>Progresso salvo automaticamente no navegador · Bom estudo! 🚀</footer>
 </div>
 
-<header>
-  <h1>Plano Essencial QA — Checkbox por Aula</h1>
-  <p class="sub">Cada aula individual tem seu próprio checkbox · progresso salvo automaticamente</p>
-  <div class="legend">
-    <span class="badge b-core">● Core</span>
-    <span class="badge b-tool">● Ferramenta</span>
-    <span class="badge b-extra">● Diferencial</span>
-  </div>
-</header>
-
-<!-- ================= SEMANA 1 ================= -->
-<section class="week" data-week="1">
-  <h2>Semana 1 — Fundamentos + Git + SQL + Nightwatch + Jenkins <span class="wcount">0/0</span></h2>
-  <p class="goal">Base teórica, versionamento, SQL até JOINs, primeiro contato com automação E2E e CI.</p>
-
-  <div class="group core">
-    <div class="ghead">Níveis, técnicas e tipos de teste <span class="src">Gustavo Farias — Mód. 03, 04, 05</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F10"><span class="fid">#F10</span><span class="lname">Introdução aos níveis de teste</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F11"><span class="fid">#F11</span><span class="lname">Nível de teste — Unitário</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F12"><span class="fid">#F12</span><span class="lname">Nível de teste — Integração</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F13"><span class="fid">#F13</span><span class="lname">Nível de teste — Sistema</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F14"><span class="fid">#F14</span><span class="lname">Nível de teste — Aceitação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F15"><span class="fid">#F15</span><span class="lname">Quando testar</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F16"><span class="fid">#F16</span><span class="lname">Técnicas de teste — introdução</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F17"><span class="fid">#F17</span><span class="lname">Como testar</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F18"><span class="fid">#F18</span><span class="lname">Partição de equivalência</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F19"><span class="fid">#F19</span><span class="lname">Valor limite</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F20"><span class="fid">#F20</span><span class="lname">Tabela de decisão</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F21"><span class="fid">#F21</span><span class="lname">Tipos de teste — introdução</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F22"><span class="fid">#F22</span><span class="lname">Teste funcional</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F23"><span class="fid">#F23</span><span class="lname">Teste de regressão</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F24"><span class="fid">#F24</span><span class="lname">Teste de desempenho</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F25"><span class="fid">#F25</span><span class="lname">Teste de segurança</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F26"><span class="fid">#F26</span><span class="lname">Teste de usabilidade</span></label>
-  </div>
-
-  <div class="group core">
-    <div class="ghead">Mentalidade do QA <span class="src">Júlio de Lima — Seção 02</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F007"><span class="fid">#F007</span><span class="lname">O que é qualidade</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F008"><span class="fid">#F008</span><span class="lname">O papel do QA</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F009"><span class="fid">#F009</span><span class="lname">Prevenção vs. detecção</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F010"><span class="fid">#F010</span><span class="lname">Comunicação no time</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F011"><span class="fid">#F011</span><span class="lname">Postura profissional</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F012"><span class="fid">#F012</span><span class="lname">Empatia com o usuário</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F013"><span class="fid">#F013</span><span class="lname">Curiosidade e investigação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F014"><span class="fid">#F014</span><span class="lname">Pensamento crítico</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F015"><span class="fid">#F015</span><span class="lname">Trabalho em equipe</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F016"><span class="fid">#F016</span><span class="lname">Ética profissional</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F017"><span class="fid">#F017</span><span class="lname">Aprendizado contínuo</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F018"><span class="fid">#F018</span><span class="lname">Adaptabilidade</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F019"><span class="fid">#F019</span><span class="lname">Atenção aos detalhes</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F020"><span class="fid">#F020</span><span class="lname">Visão de negócio</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F021"><span class="fid">#F021</span><span class="lname">Conclusão da seção</span></label>
-  </div>
-
-  <div class="group core">
-    <div class="ghead">Testes em contexto ágil <span class="src">Júlio de Lima — Seção 04</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F039"><span class="fid">#F039</span><span class="lname">Introdução ao ágil</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F040"><span class="fid">#F040</span><span class="lname">Manifesto ágil</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F041"><span class="fid">#F041</span><span class="lname">Scrum — visão geral</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F042"><span class="fid">#F042</span><span class="lname">Papéis do Scrum</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F043"><span class="fid">#F043</span><span class="lname">Cerimônias do Scrum</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F044"><span class="fid">#F044</span><span class="lname">Artefatos do Scrum</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F045"><span class="fid">#F045</span><span class="lname">Definition of Done</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F046"><span class="fid">#F046</span><span class="lname">Papel do QA no ágil</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F047"><span class="fid">#F047</span><span class="lname">Shift-left testing</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F048"><span class="fid">#F048</span><span class="lname">Testes exploratórios no ágil</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F049"><span class="fid">#F049</span><span class="lname">Automação no ágil</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F050"><span class="fid">#F050</span><span class="lname">Critérios de aceite</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F051"><span class="fid">#F051</span><span class="lname">Histórias de usuário</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F052"><span class="fid">#F052</span><span class="lname">Planning poker</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F053"><span class="fid">#F053</span><span class="lname">Retrospectiva</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F054"><span class="fid">#F054</span><span class="lname">Métricas ágeis</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F055"><span class="fid">#F055</span><span class="lname">Continuous testing</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F056"><span class="fid">#F056</span><span class="lname">Desafios do QA no ágil</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F057"><span class="fid">#F057</span><span class="lname">Conclusão da seção</span></label>
-  </div>
-
-  <div class="group core">
-    <div class="ghead">GIT <span class="src">Ebac — Seção 10</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F058"><span class="fid">#F058</span><span class="lname">O que é Git</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F059"><span class="fid">#F059</span><span class="lname">Instalação e configuração</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F060"><span class="fid">#F060</span><span class="lname">Commit e push</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F061"><span class="fid">#F061</span><span class="lname">Branch e merge</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F062"><span class="fid">#F062</span><span class="lname">Pull request</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F063"><span class="fid">#F063</span><span class="lname">Boas práticas</span></label>
-  </div>
-
-  <div class="group core">
-    <div class="ghead">SQL Server — até JOINs <span class="src">SQL Impressionador — Seções 3 a 8</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F016"><span class="fid">#F016</span><span class="lname">Instalação SQL Server + SSMS</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F017"><span class="fid">#F017</span><span class="lname">Restauração BD Contoso</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F021"><span class="fid">#F021</span><span class="lname">SELECT básico</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F022"><span class="fid">#F022</span><span class="lname">WHERE e operadores</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F023"><span class="fid">#F023</span><span class="lname">ORDER BY</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F036"><span class="fid">#F036</span><span class="lname">Filtros com LIKE</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F037"><span class="fid">#F037</span><span class="lname">Filtros com IN/BETWEEN</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F063"><span class="fid">#F063</span><span class="lname">Funções de agregação (COUNT, SUM, AVG)</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F075"><span class="fid">#F075</span><span class="lname">GROUP BY</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F076"><span class="fid">#F076</span><span class="lname">HAVING</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F093"><span class="fid">#F093</span><span class="lname">INNER JOIN</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F094"><span class="fid">#F094</span><span class="lname">LEFT/RIGHT JOIN</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F095"><span class="fid">#F095</span><span class="lname">FULL JOIN</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F121"><span class="fid">#F121</span><span class="lname">Group By + Joins — aplicação</span></label>
-  </div>
-
-  <div class="group tool">
-    <div class="ghead">Nightwatch.js <span class="src">QA Ninja — Seção 6</span></div>
-    <label class="lesson"><input type="checkbox" data-id="N16"><span class="fid">#F16</span><span class="lname">O que é Nightwatch</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N17"><span class="fid">#F17</span><span class="lname">Instalando Docker</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N18"><span class="fid">#F18</span><span class="lname">Configurando ambiente de testes</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N19"><span class="fid">#F19</span><span class="lname">Meu primeiro teste</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N20"><span class="fid">#F20</span><span class="lname">Múltiplos steps</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N21"><span class="fid">#F21</span><span class="lname">Refatorando com ES6</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N22"><span class="fid">#F22</span><span class="lname">Fluxos alternativos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N23"><span class="fid">#F23</span><span class="lname">Hooks</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N24"><span class="fid">#F24</span><span class="lname">Page Object</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N25"><span class="fid">#F25</span><span class="lname">Custom Commands</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N26"><span class="fid">#F26</span><span class="lname">Global Hooks</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N27"><span class="fid">#F27</span><span class="lname">Encapsulando Asserts</span></label>
-  </div>
-
-  <div class="group tool">
-    <div class="ghead">Jenkins — conceito + GitHub Actions <span class="src">QA Ninja — Seção 8</span></div>
-    <label class="lesson"><input type="checkbox" data-id="N44"><span class="fid">#F44</span><span class="lname">Jenkins em container Docker</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N45"><span class="fid">#F45</span><span class="lname">O que são pipelines</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N46"><span class="fid">#F46</span><span class="lname">Repositório Git</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N47"><span class="fid">#F47</span><span class="lname">Pipeline Script from SCM</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N48"><span class="fid">#F48</span><span class="lname">Dockerfile do agente</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N49"><span class="fid">#F49</span><span class="lname">Relatórios de testes</span></label>
-    <label class="lesson"><input type="checkbox" data-id="N50"><span class="fid">#F50</span><span class="lname">Diretiva post</span></label>
-  </div>
-
-  <div class="tip"><strong>Regra da semana:</strong> SQL só até JOINs. Nightwatch só até Page Object. Jenkins só conceito — pratique CI no GitHub Actions.</div>
-</section>
-
-<!-- ================= SEMANA 2 ================= -->
-<section class="week" data-week="2">
-  <h2>Semana 2 — API (REST + automação) + Cypress <span class="wcount">0/0</span></h2>
-  <p class="goal">Testar API manualmente e automatizar; dominar Cypress até Page Object.</p>
-
-  <div class="group core">
-    <div class="ghead">Testes de API REST — teoria + Postman <span class="src">Júlio de Lima — Seção 09</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F158"><span class="fid">#F158</span><span class="lname">O que é uma API</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F159"><span class="fid">#F159</span><span class="lname">Métodos HTTP</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F160"><span class="fid">#F160</span><span class="lname">Status codes</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F161"><span class="fid">#F161</span><span class="lname">JSON</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F162"><span class="fid">#F162</span><span class="lname">Postman — instalação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F163"><span class="fid">#F163</span><span class="lname">Postman — collections</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F164"><span class="fid">#F164</span><span class="lname">Postman — asserts</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F165"><span class="fid">#F165</span><span class="lname">Postman — variáveis de ambiente</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F166"><span class="fid">#F166</span><span class="lname">Testando GET</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F167"><span class="fid">#F167</span><span class="lname">Testando POST</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F168"><span class="fid">#F168</span><span class="lname">Testando PUT/PATCH</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F169"><span class="fid">#F169</span><span class="lname">Testando DELETE</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F170"><span class="fid">#F170</span><span class="lname">Testes negativos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F171"><span class="fid">#F171</span><span class="lname">Autenticação em API</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F172"><span class="fid">#F172</span><span class="lname">Boas práticas</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F173"><span class="fid">#F173</span><span class="lname">Documentação de API</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F174"><span class="fid">#F174</span><span class="lname">Swagger</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F175"><span class="fid">#F175</span><span class="lname">Newman (Postman CLI)</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F176"><span class="fid">#F176</span><span class="lname">CI com Postman</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F177"><span class="fid">#F177</span><span class="lname">Mock de API</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F178"><span class="fid">#F178</span><span class="lname">Contract testing — visão</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F179"><span class="fid">#F179</span><span class="lname">Rate limiting</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F180"><span class="fid">#F180</span><span class="lname">Idempotência</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F181"><span class="fid">#F181</span><span class="lname">Conclusão da seção</span></label>
-  </div>
-
-  <div class="group core">
-    <div class="ghead">Automação de API REST <span class="src">Ebac — Seção 14</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F082"><span class="fid">#F082</span><span class="lname">Introdução à automação de API</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F083"><span class="fid">#F083</span><span class="lname">Escolha do framework (Supertest/RestAssured)</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F084"><span class="fid">#F084</span><span class="lname">Primeiro teste automatizado</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F085"><span class="fid">#F085</span><span class="lname">Asserts e validações</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F086"><span class="fid">#F086</span><span class="lname">Organização do projeto</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F087"><span class="fid">#F087</span><span class="lname">Boas práticas</span></label>
-  </div>
-
-  <div class="group tool">
-    <div class="ghead">Cypress — Parte 1 e 2 <span class="src">Ebac — Seções 11 e 12</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F064"><span class="fid">#F064</span><span class="lname">Instalação do Cypress</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F065"><span class="fid">#F065</span><span class="lname">Primeiro teste</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F066"><span class="fid">#F066</span><span class="lname">Seletores</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F067"><span class="fid">#F067</span><span class="lname">Asserts</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F068"><span class="fid">#F068</span><span class="lname">Page Object básico</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F069"><span class="fid">#F069</span><span class="lname">Fixtures</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F070"><span class="fid">#F070</span><span class="lname">Custom commands</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F071"><span class="fid">#F071</span><span class="lname">Interceptação de requests</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F072"><span class="fid">#F072</span><span class="lname">Testes de formulário</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F073"><span class="fid">#F073</span><span class="lname">Upload de arquivo</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F074"><span class="fid">#F074</span><span class="lname">Boas práticas</span></label>
-  </div>
-
-  <div class="group tool">
-    <div class="ghead">Cypress — avançado <span class="src">Ebac — Seções 22 e 23</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F128"><span class="fid">#F128</span><span class="lname">Organização avançada</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F129"><span class="fid">#F129</span><span class="lname">Custom commands avançados</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F130"><span class="fid">#F130</span><span class="lname">Fixtures avançadas</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F131"><span class="fid">#F131</span><span class="lname">Page Objects avançados</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F132"><span class="fid">#F132</span><span class="lname">Relatórios</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F133"><span class="fid">#F133</span><span class="lname">Projeto completo — parte 1</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F134"><span class="fid">#F134</span><span class="lname">Projeto completo — parte 2</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F135"><span class="fid">#F135</span><span class="lname">Projeto completo — parte 3</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F136"><span class="fid">#F136</span><span class="lname">Projeto completo — parte 4</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F137"><span class="fid">#F137</span><span class="lname">Projeto completo — parte 5</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F138"><span class="fid">#F138</span><span class="lname">Projeto completo — parte 6</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F139"><span class="fid">#F139</span><span class="lname">Encerramento</span></label>
-  </div>
-
-  <div class="group core">
-    <div class="ghead">Gerindo inconsistências <span class="src">Júlio de Lima — Seção 13</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F244"><span class="fid">#F244</span><span class="lname">O que é um bug</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F245"><span class="fid">#F245</span><span class="lname">Ciclo de vida do bug</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F246"><span class="fid">#F246</span><span class="lname">Severidade</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F247"><span class="fid">#F247</span><span class="lname">Prioridade</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F248"><span class="fid">#F248</span><span class="lname">Como reportar bug</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F249"><span class="fid">#F249</span><span class="lname">Evidências</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F250"><span class="fid">#F250</span><span class="lname">Jira — visão</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F251"><span class="fid">#F251</span><span class="lname">Ferramentas de bug tracking</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F252"><span class="fid">#F252</span><span class="lname">Triagem de bugs</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F253"><span class="fid">#F253</span><span class="lname">Duplicidade</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F254"><span class="fid">#F254</span><span class="lname">Regressão pós-correção</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F255"><span class="fid">#F255</span><span class="lname">Métricas de bugs</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F256"><span class="fid">#F256</span><span class="lname">Comunicação com dev</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F257"><span class="fid">#F257</span><span class="lname">Conclusão</span></label>
-  </div>
-
-  <div class="tip"><strong>Regra da semana:</strong> teste API pública real (JSONPlaceholder, ViaCEP). Automatize 5 requests. Cypress em site real (saucedemo.com).</div>
-</section>
-
-<!-- ================= SEMANA 3 ================= -->
-<section class="week" data-week="3">
-  <h2>Semana 3 — Mobile (Appium) + Performance (JMeter) + CI/CD + Docker <span class="wcount">0/0</span></h2>
-  <p class="goal">“Hello world” funcional de Appium e JMeter; pipeline com Docker.</p>
-
-  <div class="group tool">
-    <div class="ghead">Testes Mobile com Android (Appium) <span class="src">Júlio de Lima — Seção 11</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F205"><span class="fid">#F205</span><span class="lname">Introdução ao mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F206"><span class="fid">#F206</span><span class="lname">Android Studio</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F207"><span class="fid">#F207</span><span class="lname">Emulador Android</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F208"><span class="fid">#F208</span><span class="lname">Appium — instalação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F209"><span class="fid">#F209</span><span class="lname">Appium Inspector</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F210"><span class="fid">#F210</span><span class="lname">Primeiro teste mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F211"><span class="fid">#F211</span><span class="lname">Seletores mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F212"><span class="fid">#F212</span><span class="lname">Page Object mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F213"><span class="fid">#F213</span><span class="lname">Gestos e swipes</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F214"><span class="fid">#F214</span><span class="lname">Asserts mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F215"><span class="fid">#F215</span><span class="lname">Testes em apps híbridos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F216"><span class="fid">#F216</span><span class="lname">Testes em apps nativos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F217"><span class="fid">#F217</span><span class="lname">Device farm</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F218"><span class="fid">#F218</span><span class="lname">Boas práticas mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F219"><span class="fid">#F219</span><span class="lname">CI mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F220"><span class="fid">#F220</span><span class="lname">Relatórios mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F221"><span class="fid">#F221</span><span class="lname">Desafios mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F222"><span class="fid">#F222</span><span class="lname">Testes em iOS — visão</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F223"><span class="fid">#F223</span><span class="lname">Ferramentas complementares</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F224"><span class="fid">#F224</span><span class="lname">Debug mobile</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F225"><span class="fid">#F225</span><span class="lname">Conclusão</span></label>
-  </div>
-
-  <div class="group tool">
-    <div class="ghead">Bônus — Appium e Java <span class="src">Vinicius Pessoni — Seção 13</span></div>
-    <label class="lesson"><input type="checkbox" data-id="P96"><span class="fid">#F096</span><span class="lname">Intro Appium + Java</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P97"><span class="fid">#F097</span><span class="lname">Configuração Java</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P98"><span class="fid">#F098</span><span class="lname">Primeiro teste Java</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P99"><span class="fid">#F099</span><span class="lname">Seletores</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P100"><span class="fid">#F100</span><span class="lname">Page Object</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P101"><span class="fid">#F101</span><span class="lname">Asserts</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P102"><span class="fid">#F102</span><span class="lname">Esperas</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P103"><span class="fid">#F103</span><span class="lname">Gestos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P104"><span class="fid">#F104</span><span class="lname">Apps híbridos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P105"><span class="fid">#F105</span><span class="lname">Relatórios</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P106"><span class="fid">#F106</span><span class="lname">CI</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P107"><span class="fid">#F107</span><span class="lname">Boas práticas</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P108"><span class="fid">#F108</span><span class="lname">Debug</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P109"><span class="fid">#F109</span><span class="lname">Device farm</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P110"><span class="fid">#F110</span><span class="lname">Desafios</span></label>
-    <label class="lesson"><input type="checkbox" data-id="P111"><span class="fid">#F111</span><span class="lname">Encerramento</span></label>
-  </div>
-
-  <div class="group tool">
-    <div class="ghead">Performance — JMeter <span class="src">Júlio de Lima — Seção 16</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F285"><span class="fid">#F285</span><span class="lname">Introdução a performance</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F286"><span class="fid">#F286</span><span class="lname">JMeter — instalação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F287"><span class="fid">#F287</span><span class="lname">Thread Group</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F288"><span class="fid">#F288</span><span class="lname">HTTP Request</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F289"><span class="fid">#F289</span><span class="lname">Assertions</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F290"><span class="fid">#F290</span><span class="lname">Listeners</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F291"><span class="fid">#F291</span><span class="lname">Aggregate Report</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F292"><span class="fid">#F292</span><span class="lname">Simulando 10 usuários</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F293"><span class="fid">#F293</span><span class="lname">Correlação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F294"><span class="fid">#F294</span><span class="lname">Parametrização</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F295"><span class="fid">#F295</span><span class="lname">Distributed testing</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F296"><span class="fid">#F296</span><span class="lname">Boas práticas</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F297"><span class="fid">#F297</span><span class="lname">Análise de resultados</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F298"><span class="fid">#F298</span><span class="lname">Gargalos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F299"><span class="fid">#F299</span><span class="lname">Conclusão</span></label>
-  </div>
-
-  <div class="group tool">
-    <div class="ghead">Integração Contínua + Docker <span class="src">Ebac — Seções 26 e 27</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F153"><span class="fid">#F153</span><span class="lname">Introdução a CI</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F154"><span class="fid">#F154</span><span class="lname">Pipeline</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F155"><span class="fid">#F155</span><span class="lname">GitHub Actions</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F156"><span class="fid">#F156</span><span class="lname">Rodando testes no CI</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F157"><span class="fid">#F157</span><span class="lname">Boas práticas CI</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F158"><span class="fid">#F158</span><span class="lname">Docker — instalação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F159"><span class="fid">#F159</span><span class="lname">Docker — containers</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F160"><span class="fid">#F160</span><span class="lname">Docker — imagens</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F161"><span class="fid">#F161</span><span class="lname">Docker — compose</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F162"><span class="fid">#F162</span><span class="lname">Docker para testes</span></label>
-  </div>
-
-  <div class="tip"><strong>Gargalo:</strong> Appium é o setup mais chato. Se travar, siga para JMeter e volte. Use Docker para subir bancos sem instalar nada.</div>
-</section>
-
-<!-- ================= SEMANA 4 ================= -->
-<section class="week" data-week="4">
-  <h2>Semana 4 — Bancos (Oracle, MySQL, PostgreSQL) + Power BI + Excel <span class="wcount">0/0</span></h2>
-  <p class="goal">Diferenças de sintaxe entre bancos e validação de dados em BI/Excel.</p>
-
-  <div class="group extra">
-    <div class="ghead">Oracle — diferenças essenciais <span class="src">SQL Impressionador — Seções 62 a 68</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F606"><span class="fid">#F606</span><span class="lname">Contas de usuário</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F607"><span class="fid">#F607</span><span class="lname">Primeiros passos SQL Developer</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F611"><span class="fid">#F611</span><span class="lname">SELECT Oracle</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F627"><span class="fid">#F627</span><span class="lname">Ordenando e filtrando</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F642"><span class="fid">#F642</span><span class="lname">Funções de número, string e data</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F648"><span class="fid">#F648</span><span class="lname">NVL e funções NULL</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F652"><span class="fid">#F652</span><span class="lname">Agregação e agrupamentos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F662"><span class="fid">#F662</span><span class="lname">JOINs e operadores SET</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F671"><span class="fid">#F671</span><span class="lname">Encerramento</span></label>
-  </div>
-
-  <div class="group extra">
-    <div class="ghead">MySQL — diferenças essenciais <span class="src">SQL Impressionador — Seções 32 a 40</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F454"><span class="fid">#F454</span><span class="lname">Introdução MySQL</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F459"><span class="fid">#F459</span><span class="lname">Instalação e importação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F463"><span class="fid">#F463</span><span class="lname">Consultas básicas</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F473"><span class="fid">#F473</span><span class="lname">Filtros</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F480"><span class="fid">#F480</span><span class="lname">Agregação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F483"><span class="fid">#F483</span><span class="lname">Agrupamentos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F487"><span class="fid">#F487</span><span class="lname">Variáveis</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F490"><span class="fid">#F490</span><span class="lname">Funções de texto e data</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F501"><span class="fid">#F501</span><span class="lname">JOINs</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F510"><span class="fid">#F510</span><span class="lname">Funções condicionais</span></label>
-  </div>
-
-  <div class="group extra">
-    <div class="ghead">PostgreSQL — diferenças essenciais <span class="src">SQL Impressionador — Seções 47 a 51</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F551"><span class="fid">#F551</span><span class="lname">Instalação PostgreSQL</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F554"><span class="fid">#F554</span><span class="lname">Queries básicas</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F559"><span class="fid">#F559</span><span class="lname">Filtros</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F565"><span class="fid">#F565</span><span class="lname">Agregação e agrupamentos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F570"><span class="fid">#F570</span><span class="lname">JOINs</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F577"><span class="fid">#F577</span><span class="lname">Views</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F578"><span class="fid">#F578</span><span class="lname">CRUD</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F582"><span class="fid">#F582</span><span class="lname">Funções de número, texto e data</span></label>
-  </div>
-
-  <div class="group tool">
-    <div class="ghead">Integração SQL Server + Excel + Power BI <span class="src">SQL Impressionador — Seções 28 e 29</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F402"><span class="fid">#F402</span><span class="lname">Excel — Obter Dados</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F403"><span class="fid">#F403</span><span class="lname">Excel — conexão SQL Server</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F404"><span class="fid">#F404</span><span class="lname">Excel — importar tabela</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F405"><span class="fid">#F405</span><span class="lname">Excel — validar números</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F406"><span class="fid">#F406</span><span class="lname">Excel — atualização</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F425"><span class="fid">#F425</span><span class="lname">Power BI — instalação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F426"><span class="fid">#F426</span><span class="lname">Power BI — conexão SQL Server</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F427"><span class="fid">#F427</span><span class="lname">Power BI — gráfico simples</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F428"><span class="fid">#F428</span><span class="lname">Power BI — validar dados</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F429"><span class="fid">#F429</span><span class="lname">Power BI — publicação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F444"><span class="fid">#F444</span><span class="lname">Encerramento</span></label>
-  </div>
-
-  <div class="group core">
-    <div class="ghead">Métricas de qualidade <span class="src">Ebac — Seção 31</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F179"><span class="fid">#F179</span><span class="lname">Introdução a métricas</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F180"><span class="fid">#F180</span><span class="lname">Defeitos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F181"><span class="fid">#F181</span><span class="lname">Cobertura</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F182"><span class="fid">#F182</span><span class="lname">Escape rate</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F183"><span class="fid">#F183</span><span class="lname">Conclusão</span></label>
-  </div>
-
-  <div class="tip"><strong>Estratégia:</strong> suba cada banco via Docker e rode as mesmas queries do SQL Server para comparar sintaxe.</div>
-</section>
-
-<!-- ================= SEMANA 5 ================= -->
-<section class="week" data-week="5">
-  <h2>Semana 5 — Contratos (PactJS) + GraphQL + Supertest + Segurança <span class="wcount">0/0</span></h2>
-  <p class="goal">Teste de contrato consumer-driven, teste de API GraphQL e visão de segurança.</p>
-
-  <div class="group extra">
-    <div class="ghead">GraphQL, Supertest e PactJS <span class="src">Ebac — Seção 24</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F140"><span class="fid">#F140</span><span class="lname">Introdução a GraphQL</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F141"><span class="fid">#F141</span><span class="lname">Queries GraphQL</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F142"><span class="fid">#F142</span><span class="lname">Mutations GraphQL</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F143"><span class="fid">#F143</span><span class="lname">Supertest — intro</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F144"><span class="fid">#F144</span><span class="lname">PactJS — conceito</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F145"><span class="fid">#F145</span><span class="lname">PactJS — consumer</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F146"><span class="fid">#F146</span><span class="lname">PactJS — provider</span></label>
-  </div>
-
-  <div class="group tool">
-    <div class="ghead">Testes de API e Contrato — reforço <span class="src">Ebac — Seção 13</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F075"><span class="fid">#F075</span><span class="lname">Conceito de contrato</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F076"><span class="fid">#F076</span><span class="lname">Mock provider</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F077"><span class="fid">#F077</span><span class="lname">Pact file</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F078"><span class="fid">#F078</span><span class="lname">Verificação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F079"><span class="fid">#F079</span><span class="lname">CI de contrato</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F080"><span class="fid">#F080</span><span class="lname">Boas práticas</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F081"><span class="fid">#F081</span><span class="lname">Encerramento</span></label>
-  </div>
-
-  <div class="group extra">
-    <div class="ghead">Testes de Segurança <span class="src">Ebac — Seção 33</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F189"><span class="fid">#F189</span><span class="lname">Introdução a segurança <span class="sec">SEG</span></span></label>
-    <label class="lesson"><input type="checkbox" data-id="F190"><span class="fid">#F190</span><span class="lname">Autenticação e autorização <span class="sec">SEG</span></span></label>
-    <label class="lesson"><input type="checkbox" data-id="F191"><span class="fid">#F191</span><span class="lname">OWASP básico <span class="sec">SEG</span></span></label>
-    <label class="lesson"><input type="checkbox" data-id="F192"><span class="fid">#F192</span><span class="lname">Ferramentas de apoio <span class="sec">SEG</span></span></label>
-    <label class="lesson"><input type="checkbox" data-id="F193"><span class="fid">#F193</span><span class="lname">Práticas no dia a dia <span class="sec">SEG</span></span></label>
-    <label class="lesson"><input type="checkbox" data-id="F194"><span class="fid">#F194</span><span class="lname">Encerramento da seção <span class="sec">SEG</span></span></label>
-  </div>
-
-  <div class="tip"><strong>Prática:</strong> API GraphQL pública no Postman. PactJS: tutorial oficial gerando pact file. Segurança: OWASP ZAP em site de teste.</div>
-</section>
-
-<!-- ================= SEMANA 6 ================= -->
-<section class="week" data-week="6">
-  <h2>Semana 6 — Consolidação + Projeto Final + Entrevista <span class="wcount">0/0</span></h2>
-  <p class="goal">Integrar tudo em 1 repositório e preparar narrativa de entrevista.</p>
-
-  <div class="group core">
-    <div class="ghead">Projeto Final <span class="src">Ebac — Seção 34</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F195"><span class="fid">#F195</span><span class="lname">Projeto final — parte 1</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F196"><span class="fid">#F196</span><span class="lname">Projeto final — parte 2</span></label>
-  </div>
-
-  <div class="group core">
-    <div class="ghead">Entrevistas <span class="src">Júlio de Lima — Seção 18</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F301"><span class="fid">#F301</span><span class="lname">Preparação para entrevista</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F302"><span class="fid">#F302</span><span class="lname">Perguntas comuns</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F303"><span class="fid">#F303</span><span class="lname">Como falar de projetos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F304"><span class="fid">#F304</span><span class="lname">Portfólio</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F305"><span class="fid">#F305</span><span class="lname">Comportamental</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F306"><span class="fid">#F306</span><span class="lname">Técnica</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F307"><span class="fid">#F307</span><span class="lname">Dinâmica</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F308"><span class="fid">#F308</span><span class="lname">Feedback</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F309"><span class="fid">#F309</span><span class="lname">Negociação</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F310"><span class="fid">#F310</span><span class="lname">Red flags</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F311"><span class="fid">#F311</span><span class="lname">Cases</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F312"><span class="fid">#F312</span><span class="lname">Simulações</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F313"><span class="fid">#F313</span><span class="lname">Encerramento</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F314"><span class="fid">#F314</span><span class="lname">Bônus</span></label>
-  </div>
-
-  <div class="group core">
-    <div class="ghead">Currículo e preparo <span class="src">Vinicius Pessoni — Seção 8</span></div>
-    <label class="lesson"><input type="checkbox" data-id="F024"><span class="fid">#F024</span><span class="lname">Currículo — estrutura</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F025"><span class="fid">#F025</span><span class="lname">Currículo — projetos</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F026"><span class="fid">#F026</span><span class="lname">LinkedIn</span></label>
-    <label class="lesson"><input type="checkbox" data-id="F027"><span class="fid">#F027</span><span class="lname">Preparo para entrevistas</span></label>
-  </div>
-
-  <div class="group extra">
-    <div class="ghead">CTFL (bônus — se for certificar) <span class="src">Vinicius Pessoni — Seção 11</span></div>
-    <details><summary>Ver todas as aulas CTFL (#F042–#F093)</summary>
-      <label class="lesson"><input type="checkbox" data-id="F042"><span class="fid">#F042</span><span class="lname">Fundamentos CTFL</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F043"><span class="fid">#F043</span><span class="lname">Princípios de teste</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F044"><span class="fid">#F044</span><span class="lname">Processo de teste</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F045"><span class="fid">#F045</span><span class="lname">Psicologia do teste</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F046"><span class="fid">#F046</span><span class="lname">Ciclo de vida</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F047"><span class="fid">#F047</span><span class="lname">Níveis de teste</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F048"><span class="fid">#F048</span><span class="lname">Tipos de teste</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F049"><span class="fid">#F049</span><span class="lname">Teste estático</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F050"><span class="fid">#F050</span><span class="lname">Revisão</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F051"><span class="fid">#F051</span><span class="lname">Técnicas — caixa-preta</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F052"><span class="fid">#F052</span><span class="lname">Técnicas — caixa-branca</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F053"><span class="fid">#F053</span><span class="lname">Técnicas — experiência</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F054"><span class="fid">#F054</span><span class="lname">Gestão de teste</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F055"><span class="fid">#F055</span><span class="lname">Planejamento</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F056"><span class="fid">#F056</span><span class="lname">Monitoramento</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F057"><span class="fid">#F057</span><span class="lname">Controle</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F058"><span class="fid">#F058</span><span class="lname">Configuração</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F059"><span class="fid">#F059</span><span class="lname">Riscos</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F060"><span class="fid">#F060</span><span class="lname">Ferramentas</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F061"><span class="fid">#F061</span><span class="lname">Automação</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F062"><span class="fid">#F062</span><span class="lname">Revisão final</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F063"><span class="fid">#F063</span><span class="lname">Simulado 1</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F064"><span class="fid">#F064</span><span class="lname">Simulado 2</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F065"><span class="fid">#F065</span><span class="lname">Simulado 3</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F066"><span class="fid">#F066</span><span class="lname">Simulado 4</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F067"><span class="fid">#F067</span><span class="lname">Simulado 5</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F068"><span class="fid">#F068</span><span class="lname">Revisão simulado 1</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F069"><span class="fid">#F069</span><span class="lname">Revisão simulado 2</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F070"><span class="fid">#F070</span><span class="lname">Revisão simulado 3</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F071"><span class="fid">#F071</span><span class="lname">Revisão simulado 4</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F072"><span class="fid">#F072</span><span class="lname">Revisão simulado 5</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F073"><span class="fid">#F073</span><span class="lname">Dicas de prova</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F074"><span class="fid">#F074</span><span class="lname">Inscrição</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F075"><span class="fid">#F075</span><span class="lname">Dia da prova</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F076"><span class="fid">#F076</span><span class="lname">Resultado</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F077"><span class="fid">#F077</span><span class="lname">Renovação</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F078"><span class="fid">#F078</span><span class="lname">Recursos</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F079"><span class="fid">#F079</span><span class="lname">Glossário</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F080"><span class="fid">#F080</span><span class="lname">Referências</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F081"><span class="fid">#F081</span><span class="lname">Encerramento parcial</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F082"><span class="fid">#F082</span><span class="lname">Revisão 1</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F083"><span class="fid">#F083</span><span class="lname">Revisão 2</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F084"><span class="fid">#F084</span><span class="lname">Revisão 3</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F085"><span class="fid">#F085</span><span class="lname">Revisão 4</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F086"><span class="fid">#F086</span><span class="lname">Revisão 5</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F087"><span class="fid">#F087</span><span class="lname">Revisão 6</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F088"><span class="fid">#F088</span><span class="lname">Revisão 7</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F089"><span class="fid">#F089</span><span class="lname">Revisão 8</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F090"><span class="fid">#F090</span><span class="lname">Revisão 9</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F091"><span class="fid">#F091</span><span class="lname">Revisão 10</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F092"><span class="fid">#F092</span><span class="lname">Revisão 11</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F093"><span class="fid">#F093</span><span class="lname">Encerramento CTFL</span></label>
-    </details>
-  </div>
-
-  <div class="tip"><strong>Entrega:</strong> 1 repo no GitHub com README explicando Cypress, Supertest, Nightwatch, JMeter, queries SQL comparadas, Pact file, GraphQL collection, testes de segurança, GitHub Action rodando tudo.</div>
-</section>
-
-<!-- ================= CORTE CONSCIENTE ================= -->
-<section class="week" data-week="0">
-  <h2>⏸️ Corte consciente — adiar sem prejuízo</h2>
-  <p class="goal">Itens que podem esperar até você estar empregado.</p>
-  <details><summary>Ver itens adiados</summary>
-    <div class="group extra"><div class="ghead">Adiados</div>
-      <label class="lesson"><input type="checkbox" data-id="F226"><span class="fid">#F226</span><span class="lname">Testes Desktop</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F169"><span class="fid">#F169</span><span class="lname">iOS</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F170"><span class="fid">#F170</span><span class="lname">Mobile em CI</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F259"><span class="fid">#F259</span><span class="lname">Loops SQL</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F268"><span class="fid">#F268</span><span class="lname">Window Functions</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F381"><span class="fid">#F381</span><span class="lname">Triggers</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F393"><span class="fid">#F393</span><span class="lname">Pivot Table</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F776"><span class="fid">#F776</span><span class="lname">Modelagem de BD</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F305"><span class="fid">#F305</span><span class="lname">Python / Numpy</span></label>
-      <label class="lesson"><input type="checkbox" data-id="F315"><span class="fid">#F315</span><span class="lname">LinkedIn Campeão + Lives</span></label>
-    </div>
-  </details>
-</section>
-
-<footer>
-  Plano gerado a partir dos cursos: Júlio de Lima · Ebac · Gustavo Farias · Vinicius Pessoni · QA Ninja · SQL Impressionador<br>
-  Cada aula tem seu próprio checkbox · progresso salvo automaticamente neste navegador.
-</footer>
-
 <script>
-  const STORAGE_KEY = 'qa_plano_aula_v1';
-  const boxes = Array.from(document.querySelectorAll('input[type=checkbox][data-id]'));
+(function(){
+  const STORAGE_KEY = 'qa_plan_progress_v2';
+  const checks = document.querySelectorAll('.fchk');
 
-  function load(){
-    let saved = {};
-    try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){}
-    boxes.forEach(cb => { if(saved[cb.dataset.id]) cb.checked = true; });
-  }
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e){ saved = {}; }
+  checks.forEach(c => { if (saved[c.dataset.f]) c.checked = true; });
+
   function save(){
-    const state = {};
-    boxes.forEach(cb => { state[cb.dataset.id] = cb.checked; });
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const data = {};
+    checks.forEach(c => { if (c.checked) data[c.dataset.f] = true; });
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e){}
   }
-  function updateItem(cb){
-    const label = cb.closest('.lesson');
-    if(label) label.classList.toggle('done', cb.checked);
-  }
-  function updateCounts(){
-    const total = boxes.length;
-    const done = boxes.filter(cb => cb.checked).length;
-    document.getElementById('gcount').textContent = done + ' / ' + total;
-    document.getElementById('gbar').style.width = total ? (done/total*100) + '%' : '0%';
-    document.querySelectorAll('.week').forEach(w => {
-      const wb = Array.from(w.querySelectorAll('input[type=checkbox][data-id]'));
-      const wd = wb.filter(cb => cb.checked).length;
-      const el = w.querySelector('.wcount');
-      if(el) el.textContent = wd + '/' + wb.length;
+
+  function updateProgress(){
+    // por módulo
+    document.querySelectorAll('[data-module]').forEach(mod => {
+      const list = mod.querySelectorAll('.fchk');
+      const done = Array.from(list).filter(c => c.checked).length;
+      const total = list.length;
+      const badge = mod.querySelector('.mcount');
+      if (badge) badge.textContent = `${done}/${total}`;
     });
+
+    // por curso
+    document.querySelectorAll('[data-course]').forEach(card => {
+      const course = card.dataset.course;
+      const list = card.querySelectorAll('.fchk');
+      const done = Array.from(list).filter(c => c.checked).length;
+      const total = list.length;
+      const badge = document.querySelector(`[data-count="${course}"]`);
+      if (badge) badge.textContent = `${done}/${total}`;
+    });
+
+    // global
+    const totalAll = checks.length;
+    const doneAll = Array.from(checks).filter(c => c.checked).length;
+    const pct = totalAll ? Math.round(doneAll/totalAll*100) : 0;
+    document.getElementById('pctGlobal').textContent = pct + '%';
+    document.getElementById('barGlobal').style.width = pct + '%';
+    document.getElementById('countGlobal').textContent = `${doneAll} de ${totalAll} aulas`;
   }
-  function refresh(){
-    boxes.forEach(cb => updateItem(cb));
-    updateCounts();
-  }
-  boxes.forEach(cb => {
-    cb.addEventListener('change', () => {
-      updateItem(cb);
-      updateCounts();
+
+  checks.forEach(c => {
+    c.addEventListener('change', () => {
+      c.closest('li').classList.toggle('done', c.checked);
       save();
+      updateProgress();
     });
+    if (c.checked) c.closest('li').classList.add('done');
   });
-  function resetAll(){
-    if(!confirm('Resetar todo o progresso?')) return;
-    localStorage.removeItem(STORAGE_KEY);
-    boxes.forEach(cb => { cb.checked = false; });
-    refresh();
-  }
-  load();
-  refresh();
-  window.addEventListener('scroll', () => {
-    const h = document.documentElement;
-    const p = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
-    document.getElementById('prog').style.width = p + '%';
+
+  document.getElementById('btnReset').addEventListener('click', () => {
+    if (!confirm('Limpar todo o progresso?')) return;
+    checks.forEach(c => { c.checked = false; c.closest('li').classList.remove('done'); });
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e){}
+    updateProgress();
   });
+
+  updateProgress();
+})();
 </script>
 </body>
 </html>
